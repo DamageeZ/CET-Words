@@ -4,27 +4,23 @@
 
 #include "User.h"
 #include <cstring>
+
 using namespace std;
 
-User::User(void)
-{
+User::User() {
 }
 
-void User::addUser(User x)
-{
+void User::addUser(User x) {
 }
 
-void User::delUser(User x)
-{
+void User::delUser(User x) {
 }
 
-unsigned int User::getUserId()
-{
+unsigned int User::getUserId() const {
     return UserId;
 }
 
-void User::setUserId(unsigned int userid)
-{
+void User::setUserId(unsigned int userid) {
     this->UserId = userid;
 }
 
@@ -36,26 +32,21 @@ void User::setUserPwd(const char *x) {
     this->UserPwd.assign(x);
 }
 
-const char * User::getUserName()
-{
+const char *User::getUserName() const {
     return UserName.c_str();
 }
 
-const char * User::getUserPwd()
-{
+const char *User::getUserPwd() const {
     return UserPwd.c_str();
 }
 
-unsigned int User::getLevel()
-{
-    return level;
+unsigned int User::getLevel() const {
+    return Level;
 }
 
-void User::setLevel(unsigned int x)
-{
-    this->level = x;
+void User::setLevel(unsigned int x) {
+    this->Level = x;
 }
 
-User::~User()
-{
+User::~User() {
 }

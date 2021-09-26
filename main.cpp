@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <cstring>
 using namespace std;
-#include "User.h"
+#include "UserService.h"
 
 void Menu()
 {
@@ -16,13 +16,17 @@ void Menu()
     cout << "***********************" << endl;
 }
 
-int main()
-{
+void creatUserSurface() {
+    unsigned int tempUserId;
+    char tempUserChar[20];
+    cout << "UserId";
+
+}
+
+int main() {
     std::cout << "Welcome to BDC\n";
     Menu();
-    const char* test = "abcd";
-    User * u = new User();
-    u->setUserName(test);
-    cout << u->getUserName();
+    getchar();
+    UserService userService{};
     return 0;
 }

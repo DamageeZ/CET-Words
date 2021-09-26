@@ -6,8 +6,7 @@
 #define CET_DAO_H
 
 
-struct DAO
-{
+struct DAO {
 
 };
 
