@@ -5,7 +5,7 @@
 #ifndef CET_USER_H
 #define CET_USER_H
 
-#endif //CET_USER_H
+
 #include<string>
 
 class User
@@ -17,14 +17,28 @@ private:
     unsigned int level;
 public:
     User();
+
     void addUser(User x);
+
     void delUser(User x);
+
     unsigned int getUserId();
+
     void setUserId(unsigned int x);
-    void setUserName(const char * x);
-    const char * getUserName();
-    const char * getUserPwd();
+
+    void setUserName(const char *x);
+
+    const char *getUserName();
+
+    const char *getUserPwd();
+
     unsigned int getLevel();
+
     void setLevel(unsigned int x);
+
     ~User();
+
+    void setUserPwd(const char *x);
 };
+
+#endif //CET_USER_H

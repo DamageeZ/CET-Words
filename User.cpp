@@ -28,9 +28,12 @@ void User::setUserId(unsigned int userid)
     this->UserId = userid;
 }
 
-void User::setUserName(const char * x)
-{
+void User::setUserName(const char *x) {
     this->UserName.assign(x);
+}
+
+void User::setUserPwd(const char *x) {
+    this->UserPwd.assign(x);
 }
 
 const char * User::getUserName()

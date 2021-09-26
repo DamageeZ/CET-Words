@@ -5,10 +5,10 @@
 #ifndef CET_DAO_H
 #define CET_DAO_H
 
-#endif //CET_DAO_H
 
 struct DAO
 {
 
 };
 
+#endif //CET_DAO_H
