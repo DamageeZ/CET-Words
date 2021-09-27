@@ -2,31 +2,26 @@
 #include <cstdlib>
 #include <cstring>
 using namespace std;
-#include "UserService.h"
+#include "User.h"
 
 void Menu()
 {
     cout << "***********************" << endl;
-    cout << "*****  1¡¢½ñÈÕ´ò¿¨  *****" << endl;
-    cout << "*****  2¡¢ÓÃ»§×¢²á  *****" << endl;
-    cout << "*****  3¡¢±³ËÐµ¥´Ê  *****" << endl;
-    cout << "*****  4¡¢´Ê¿â¹ÜÀí  *****" << endl;
-    cout << "*****  5¡¢µ¼Èë´Ê¿â  *****" << endl;
-    cout << "*****  6¡¢ÍË³ö  *****" << endl;
+    cout << "*****  1ï¿½ï¿½ï¿½ï¿½ï¿½Õ´ï¿½  *****" << endl;
+    cout << "*****  2ï¿½ï¿½ï¿½Ã»ï¿½×¢ï¿½ï¿½  *****" << endl;
+    cout << "*****  3ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½  *****" << endl;
+    cout << "*****  4ï¿½ï¿½ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½  *****" << endl;
+    cout << "*****  5ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½  *****" << endl;
+    cout << "*****  6ï¿½ï¿½ï¿½Ë³ï¿½  *****" << endl;
     cout << "***********************" << endl;
-}
-
-void creatUserSurface() {
-    unsigned int tempUserId;
-    char tempUserChar[20];
-    cout << "UserId";
-
 }
 
 int main() {
     std::cout << "Welcome to BDC\n";
     Menu();
-    getchar();
-    UserService userService{};
+    const char *test = "abcd";
+    User *u = new User();
+    u->setUserName(test);
+    cout << u->getUserName();
     return 0;
 }

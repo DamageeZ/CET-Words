@@ -4,10 +4,9 @@
 
 #include "User.h"
 #include <cstring>
-
 using namespace std;
 
-User::User() {
+User::User(void) {
 }
 
 void User::addUser(User x) {
@@ -16,7 +15,7 @@ void User::addUser(User x) {
 void User::delUser(User x) {
 }
 
-unsigned int User::getUserId() const {
+unsigned int User::getUserId() {
     return UserId;
 }
 
@@ -32,20 +31,20 @@ void User::setUserPwd(const char *x) {
     this->UserPwd.assign(x);
 }
 
-const char *User::getUserName() const {
+const char *User::getUserName() {
     return UserName.c_str();
 }
 
-const char *User::getUserPwd() const {
+const char *User::getUserPwd() {
     return UserPwd.c_str();
 }
 
-unsigned int User::getLevel() const {
-    return Level;
+unsigned int User::getLevel() {
+    return level;
 }
 
 void User::setLevel(unsigned int x) {
-    this->Level = x;
+    this->level = x;
 }
 
 User::~User() {
