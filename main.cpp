@@ -3,6 +3,7 @@
 #include <cstring>
 using namespace std;
 #include "User.h"
+#include "Word.h"
 
 void Menu()
 {
@@ -18,11 +19,11 @@ void Menu()
 
 int main()
 {
-    std::cout << "Welcome to BDC\n";
-    Menu();
-    const char* test = "abcd";
-    User * u = new User();
-    u->setUserName(test);
-    cout << u->getUserName();
+    unsigned int ID;
+    int num;
+    ID = 20011025;
+    
+    loadWord(ID,1);
+
     return 0;
 }
