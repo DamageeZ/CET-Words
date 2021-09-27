@@ -20,11 +20,13 @@ public:
 
     static void Registers();
 
-    static void Login(DTO *current);
+    static void Login(currentDTO *current);
 
     static void save();
 
     static void read();
+
+    static void update(currentDTO *current);
 };
 
 #endif //CET_USER_H

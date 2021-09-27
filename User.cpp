@@ -123,7 +123,7 @@ void User::Registers() {
     }
 }
 
-void User::Login(DTO *current) {
+void User::Login(currentDTO *current) {
     read();
 
     unsigned int Id;
@@ -131,10 +131,16 @@ void User::Login(DTO *current) {
     char ch, pass[20];
     cout << "请输入Id:";
     cin >> Id;
+    bool found = false;
     for (i = 0; i < UserCount; i++) {
         if (user[i].userId == Id) {
+            found = true;
             break;
         }
+    }
+    if (!found) {
+        cout << "Id" << Id << "未被注册，请注册后重试。" << endl;
+        return;
     }
 
     for (int j = 0; j < 3; j++) {
@@ -163,4 +169,16 @@ void User::Login(DTO *current) {
             cout << "密码错误" << endl;
         }
     }
+}
+
+void User::update(currentDTO *current) {
+    read();
+    for (int i = 0; i < UserCount; i++) {
+        if (current->Id == user[i].userId) {
+            user[i].score = current->score;
+            user[i].level = current->level;
+            break;
+        }
+    }
+    save();
 }
