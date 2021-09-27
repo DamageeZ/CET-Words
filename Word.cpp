@@ -10,7 +10,7 @@
 #include <fstream>
 #include "Word.h"
 
-#define LEN 20
+#define LEN 20  //ID最大长度
 #define WORDLEN 256  //词条最大值
 #define STDLIB "../Word-store/sysLib.dat" //系统词库
 
@@ -21,7 +21,7 @@ int loadWord(unsigned int ID, bool state)
 {
     FILE *fp;
     string target;
-    char openName[20];
+    char openName[LEN];
     char shoWord[WORDLEN];  //词条显示数组
     char userlib[50] = "../Word-store/";
 
@@ -58,7 +58,9 @@ int loadWord(unsigned int ID, bool state)
             return 0;
         }
     
-        while( fgets(shoWord,WORDLEN,fp) != NULL)
+        addWord(fp);
+        
+        while(fgets(shoWord,WORDLEN,fp) != NULL)
         {
             do
             {
@@ -83,6 +85,7 @@ int wordCount(FILE *fp)
     return wordNum;
 }
 
+/* 显示单词 */
 int showWrongword()
 {
     int count;
@@ -106,4 +109,23 @@ int showWrongword()
             word[i].wordCN = strLine;
         }
     }
+}
+
+/* 用户添加单词 */
+void addWord(FILE *fp)
+{
+    struct addWord list;
+    list = {0};
+    
+    gets(list.wordEN);    //从键盘输入英语单词
+    gets(list.wordAttr);  //从键盘输入词性
+    gets(list.wordCN);    //从键盘输入汉语翻译
+    
+    fputs(list.wordEN,fp);      //显示英语单词
+    fputs(",",fp);         //用“，”分隔
+    fputs(list.wordAttr,fp);    //显示词性
+    fputs(",",fp);         //用“，”分隔
+    fputs(list.wordCN,fp);      //显示汉语翻译
+    fputs(";",fp);         //用“；”表示词条结束
+    fputs("\n",fp);
 }
