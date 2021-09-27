@@ -6,7 +6,6 @@
 #define CET_USERSERVICE_H
 
 #include "User.h"
-#include "Cryption.h"
 
 class UserService {
 public:

@@ -4,48 +4,55 @@
 
 #include "User.h"
 #include <cstring>
+#include <fstream>
+#include <iostream>
+
 using namespace std;
 
-User::User(void) {
+#define MAXUSER 100
+int UserCount = 0;
+
+User user[MAXUSER];
+
+//save to disk
+void User::save() {
+    ofstream outfile("./src/user.dat", ios::out);
+
+    for (int i = 0; i < UserCount; i++) {
+        outfile << user[i].userId << endl;
+        outfile << user[i].userName << endl;
+        outfile << user[i].password << endl;
+        outfile << user[i].level << endl;
+        outfile << user[i].score << endl;
+    }
+    outfile.close();
 }
 
-void User::addUser(User x) {
+//read to ram
+void User::read() {
+    ifstream infile("./src/user.dat", ios::in);
+
+    UserCount = 0;
+
+    if (!infile.is_open()) {
+        cerr << "file can't open" << endl;
+    }
+
+    for (int i = 0; !infile.eof(), i++) {
+        infile >> user[i].userId;
+        infile >> user[i].userName;
+        infile >> user[i].password;
+        infile >> user[i].level;
+        infile >> user[i].score;
+        UserCount++;
+    }
+    infile.close();
 }
 
-void User::delUser(User x) {
-}
-
-unsigned int User::getUserId() {
-    return UserId;
-}
-
-void User::setUserId(unsigned int userid) {
-    this->UserId = userid;
-}
-
-void User::setUserName(const char *x) {
-    this->UserName.assign(x);
-}
-
-void User::setUserPwd(const char *x) {
-    this->UserPwd.assign(x);
-}
-
-const char *User::getUserName() {
-    return UserName.c_str();
-}
-
-const char *User::getUserPwd() {
-    return UserPwd.c_str();
-}
-
-unsigned int User::getLevel() {
-    return level;
-}
-
-void User::setLevel(unsigned int x) {
-    this->level = x;
-}
-
-User::~User() {
+void User::Registers() {
+    us.read();
+    string userN, userP, userP2;
+    for (int i = UserCount - 1; i < MAXUSER; i++) {
+        cout << ""
+    }
 }
