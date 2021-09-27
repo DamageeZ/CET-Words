@@ -7,7 +7,7 @@
 
 
 #include<string>
-
+#include "currentDTO.h"
 class User {
 private:
     std::string userName;
@@ -18,13 +18,13 @@ private:
 public:
     User() {};
 
-    void Registers();
+    static void Registers();
 
-    void Login();
+    static void Login(DTO *current);
 
-    void save();
+    static void save();
 
-    void read();
-} us;
+    static void read();
+};
 
 #endif //CET_USER_H
