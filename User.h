@@ -5,26 +5,26 @@
 #ifndef CET_USER_H
 #define CET_USER_H
 
-#endif //CET_USER_H
-#include<string>
 
-class User
-{
+#include<string>
+#include "currentDTO.h"
+class User {
 private:
-    unsigned int UserId;
-    std::string UserName;
-    std::string UserPwd;
+    std::string userName;
+    std::string password;
+    unsigned int userId;
     unsigned int level;
+    unsigned int score;
 public:
-    User();
-    void addUser(User x);
-    void delUser(User x);
-    unsigned int getUserId();
-    void setUserId(unsigned int x);
-    void setUserName(const char * x);
-    const char * getUserName();
-    const char * getUserPwd();
-    unsigned int getLevel();
-    void setLevel(unsigned int x);
-    ~User();
+    User() {};
+
+    static void Registers();
+
+    static void Login(DTO *current);
+
+    static void save();
+
+    static void read();
 };
+
+#endif //CET_USER_H

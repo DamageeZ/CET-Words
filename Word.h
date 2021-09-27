@@ -6,10 +6,11 @@
 #define CET_WORD_H
 
 #endif //CET_WORD_H
-class Word
-{
+class Word {
 private:
     char eng[46];
-    enum PoS {n,adj,pron,adv,v,num,art,prep,conj,interj} pos;  //Pos Stands for Part of Speech ����
+    enum PoS {
+        n, adj, pron, adv, v, num, art, prep, conj, interj
+    } pos;  //Pos Stands for Part of Speech 词性
 };
 
