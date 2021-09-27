@@ -1,22 +1,32 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
 
 using namespace std;
 
 #include "User.h"
 
+void Signup(currentDTO *current) {
+    current->level += 12;
+    current->lastSignTime = current->dateOfToday;
+    User::update(current);
+}
+
 void Menu(currentDTO *current) {
     if (current->Id == 0) {
-        cout << "未登录" << endl;
+        cout << "\n\t\t未登录" << endl;
     } else {
         cout << "\t\t" << current->UserName << endl;
         cout << "\t\t经验：" << current->level << endl;
+        cout << "\t\t打卡\t" << current->level / 12 << "\t天" << endl;
         cout << "\t\t分数：" << current->score << endl;
     }
 
     cout << "***********************" << endl;
-    cout << "*****  1、每日打卡  *****" << endl;
+    if (current->Id != 0 && current->lastSignTime == current->dateOfToday) {
+        cout << "*****     已打卡   *****" << endl;
+    } else cout << "*****  1、每日打卡  *****" << endl;
     cout << "*****  2、用户登录  *****" << endl;
     cout << "*****  3、用户注册  *****" << endl;
     cout << "*****  4、单词学习  *****" << endl;
@@ -31,11 +41,18 @@ int main() {
     memset(current, 0, sizeof(currentDTO));
     std::cout << "Welcome to BDC\n";
     Menu(current);
-    int control = 0;
+
+    struct tm *si;
+    time_t t = time(NULL);
+    si = localtime(&t);
+    current->dateOfToday = si->tm_mday;
+
+    short control = 0;
     while (true) {
         cin >> control;
         switch (control) {
             case 1:
+                Signup(current);
                 break;
             case 2:
                 User::Login(current);
@@ -48,9 +65,11 @@ int main() {
             case 5:
                 break;
             case 6:
-                User::update(current);
+                User::update(current);  //实现退出登录前保存个人信息
                 memset(current, 0, sizeof(currentDTO));
+                break;
             case 7:
+                User::update(current); //实现退出程序前保存个人信息
                 return 0;
             default :
                 cout << "error input" << endl;

@@ -24,6 +24,7 @@ void User::save() {
         outfile << user[i].password << endl;
         outfile << user[i].level << endl;
         outfile << user[i].score << endl;
+        outfile << user[i].lastSignTiem << endl;
     }
     outfile.close();
 }
@@ -46,6 +47,7 @@ void User::read() {
         infile >> user[i].password;
         infile >> user[i].level;
         infile >> user[i].score;
+        infile >> user[i].lastSignTiem;
         UserCount++;
     }
     infile.close();
@@ -163,6 +165,7 @@ void User::Login(currentDTO *current) {
             current->Id = user[i].userId;
             current->score = user[i].score;
             current->level = user[i].level;
+            current->lastSignTime = user[i].lastSignTiem;
             strcpy(current->UserName, user[i].userName.c_str());
             break;
         } else {
@@ -177,6 +180,7 @@ void User::update(currentDTO *current) {
         if (current->Id == user[i].userId) {
             user[i].score = current->score;
             user[i].level = current->level;
+            user[i].lastSignTiem = current->lastSignTime;
             break;
         }
     }
