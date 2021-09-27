@@ -15,6 +15,7 @@ private:
     unsigned int userId;
     unsigned int level;
     unsigned int score;
+    short lastSignTiem;
 public:
     User() {};
 

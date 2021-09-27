@@ -9,7 +9,8 @@ struct currentDTO {
     unsigned int Id = 0;
     unsigned int level = 0;
     unsigned int score = 0;
-
+    short lastSignTime = 0;
+    short dateOfToday = 0;
 };
 
 #endif //CET_CURRENTDTO_H
