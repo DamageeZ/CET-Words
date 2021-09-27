@@ -6,7 +6,8 @@
 #define CET_WORD_H
 
 /* 函数声明 */
-int selLib(unsigned int ID, bool state);
+int loadWord(unsigned int ID, bool state);
+int wordCount(FILE *fp);
 
 #endif //CET_WORD_H
 class Word {
