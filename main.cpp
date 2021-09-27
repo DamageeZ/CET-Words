@@ -43,7 +43,7 @@ int main() {
     Menu(current);
 
     struct tm *si;
-    time_t t = time(NULL);
+    time_t t = time(nullptr);
     si = localtime(&t);
     current->dateOfToday = si->tm_mday;
 
