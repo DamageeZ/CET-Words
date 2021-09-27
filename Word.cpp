@@ -8,9 +8,26 @@
 #include "stdlib.h"
 #include "Word.h"
 
-int word()
-{
+#define LEN 20
+#define STDLIB "./Word-store/sysLib.dat" //系统词库
 
+/* 词库选择 */
+int selLib(unsigned int ID, bool state)
+{
+    FILE *fp;
+    char openName[LEN];
+    
+    itoa(ID,openName,10);    //将ID转化为字符串存储在openName中
+    strcat(openName, ".dat");
+
+    if(state)
+    {
+        fp = fopen(STDLIB,"r+");
+    }
+    else
+    {
+        fp = fopen("./Word-store/openName","a+");
+    }
 }
 
 
