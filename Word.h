@@ -5,6 +5,13 @@
 #ifndef CET_WORD_H
 #define CET_WORD_H
 
+/* 函数声明 */
+string libChoose();
+int wordCount(string filePath);
+string loadWord(int countNumber, int type, string filePath);
+void showAll(int select, string filePath);
+void showWordList(string filePath, int count, int start);
+
 #endif //CET_WORD_H
 class Word {
 private:

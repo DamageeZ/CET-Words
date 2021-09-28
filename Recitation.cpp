@@ -4,9 +4,12 @@
 #include "Recitation.h"
 #include "Word.h"
 #include "User.h"
+
 using namespace std;
+
 /*单词复习实现*/
-void wordsReview(){
+void wordsReview()
+{
     int wrongWordNum;
     wrongWordNum = wordNumber();//call the func that return a list word number
     if(wrongWordNum == 0){
@@ -16,8 +19,10 @@ void wordsReview(){
         wordLearn(0);
     }
 }
+
 /*单词预览学习实现*/
-void wordLearn(int learnModel){// 传入学习单词的模式，区分是从错误单词还是默认单词中取出数据。
+void wordLearn(int learnModel)      // 传入学习单词的模式，区分是从错误单词还是默认单词中取出数据。
+{
         int pages = wordNumber(learnModel) / 10 + 1;//根据learnModel，获取对应单词本含有的单词数
         showWordList(learnModel);//show 10 wrongwords,default is 0;
         for (int i = 0; i < pages; i++)
@@ -49,8 +54,10 @@ void wordLearn(int learnModel){// 传入学习单词的模式，区分是从错�
         }
         singleWordChoose(inputNumber);
 }
+
 /*单词背诵实现*/
-void wordReciate(){
+void wordReciate()
+{
     int selectModel = 0;
     cout << "choose an model you want" << endl;
     cout << "***************************" << endl;
@@ -75,8 +82,10 @@ void wordReciate(){
         break;
     }
 }
+
 /*单词复习实现*/
-void wordsReview(){
+void wordsReview()
+{
     int wrongWordNum;
     wrongWordNum = wordNumber();//call the func that return a list word number
     if(wrongWordNum == 0){
@@ -86,8 +95,10 @@ void wordsReview(){
         wordLearn(0);
     }
 }
+
 /*单个单词显示实现*/
-void singleWordChoose(int listNumber){
+void singleWordChoose(int listNumber)
+{
     int select;
     cout << "选择你要查看的单词。";
     cin >> select;
@@ -136,10 +147,11 @@ void singleWordChoose(int listNumber){
     default:
         break;
     }
-    }
+}
 
 /*显示单个单词*/
-void showContent(int countNumber, int type){
+void showContent(int countNumber, int type)
+{
     int count = 10;//wordNumber(); 
     string wordarry[count][3];
     string filePath = "/Users/qiy/Desktop/Developments/C_Projects/learn_env/word.txt";
