@@ -15,7 +15,7 @@
 
 #define LEN 20  //ID最大长度
 #define WORDLEN 256  //词条最大值
-#define STDLIB "../Word-store/sysLib.dat" //系统词库
+#define STDLIB "../src/sysLib.dat" //系统词库
 
 using namespace std;
 
@@ -26,7 +26,7 @@ int loadWord(unsigned int ID, _Bool state)
     string target;
     char openName[LEN];
     char shoWord[WORDLEN];  //词条显示数组
-    char userlib[50] = "../Word-store/";
+    char userlib[50] = "../src/";
 
     itoa(ID,openName,10);    //将ID转化为字符串存储在openName中
     strcat(openName, ".dat");
