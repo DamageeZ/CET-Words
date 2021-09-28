@@ -98,6 +98,7 @@ void User::Registers() {
             if (tp->info.userName == userN) {
                 cout << "当前用户名已经注册,ID为\t" << tp->info.userId << endl;
                 auth = false;
+                save();
                 break;
             }
             tp = tp->next;
@@ -230,6 +231,7 @@ void User::Login(currentDTO *current) {
             cout << "密码错误" << endl;
         }
     }
+    save();
 }
 
 void User::update(currentDTO *current) {

@@ -57,6 +57,7 @@ int main() {
         switch (control) {
             case 1:
                 Signup(current);
+                User::update(current);
                 break;
             case 2:
                 User::Login(current);
