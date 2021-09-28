@@ -22,17 +22,17 @@ string libChoose() {
     cin >> select;
     switch (select) {
         case 1:
-            Path = "/Users/qiy/CET/personalWordLib.txt";
+            Path = ".src/personalWordLib.txt";
             break;
         case 2:
-            Path = "/Users/qiy/CET/wrongWrongWord.txt";
+            Path = ".src/wrongWrongWord.txt";
             break;
         case 3:
-            Path = "/Users/qiy/CET/defaultWordLib.txt";
+            Path = ".src/defaultWordLib.txt";
             break;
         default:
             cout << "未正确选择题库，载入系统默认词库" << endl;
-            Path = "/Users/qiy/CET/defaultWordLib.txt";
+            Path = ".src/defaultWordLib.txt";
             break;
     }
     return Path;
