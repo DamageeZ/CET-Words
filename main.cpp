@@ -23,7 +23,7 @@ int main()
     int num;
     ID = 20011025;
     
-    loadWord(ID,0);
+    loadWord(ID,1);
 
     return 0;
 }

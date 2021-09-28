@@ -1,14 +1,17 @@
 /**
  Created by zhouzhm1 on 2021/9/26.
  Update by HCl on 2021/9/27.
+ Update by HCl on 2021/9/28.
 */
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "stdbool.h"
 #include <iostream>
 #include <fstream>
 #include "Word.h"
+
 
 #define LEN 20  //ID最大长度
 #define WORDLEN 256  //词条最大值
@@ -17,7 +20,7 @@
 using namespace std;
 
 /* 显示单词全部信息（背诵单词） */
-int loadWord(unsigned int ID, bool state)
+int loadWord(unsigned int ID, _Bool state)
 {
     FILE *fp;
     string target;
@@ -34,19 +37,18 @@ int loadWord(unsigned int ID, bool state)
 
     if(state)
     {
-        fp = fopen(STDLIB,"r+");
+        fp = fopen(STDLIB,"r+");    //打开系统词库
         if(fp == NULL)      //文件开启不成功
         {
             printf("打开 %s 错误，请刷新",STDLIB);
             return 0;
         }
         
-        while( fgets(shoWord,WORDLEN,fp) != NULL)
+        while(fgets(shoWord,WORDLEN,fp) != NULL)
         {
-            do
-            {
-                printf(shoWord);
-            }while(getchar() == '\n');
+            fputs(shoWord,stdout);
+            if(getchar() == '\n')
+                continue;
         }
     }
     else
@@ -54,22 +56,20 @@ int loadWord(unsigned int ID, bool state)
         fp = fopen(target.c_str(),"a+");
         if(fp == NULL)        //文件开启不成功
         {
-            printf("打开 %s 错误，请刷新",openName);
+            printf("打开 %s 错误，请刷新",target.c_str());
             return 0;
         }
-    
-        addWord(fp);
         
         while(fgets(shoWord,WORDLEN,fp) != NULL)
         {
-            do
-            {
-                printf(shoWord);
-            }while(getchar() == '\n');
+            fputs(shoWord,stdout);
+            if(getchar() == '\n')
+                continue;
         }
     }
-    
-    return 1;
+
+    if(fclose(fp) == 0)
+        return 1;
 }
 
 /* 记录单词总数 */
@@ -86,7 +86,7 @@ int wordCount(FILE *fp)
 }
 
 /* 显示单词 */
-int showWrongword()
+int showWrongword(void)
 {
     int count;
     count = 10;//wordNumber();
@@ -111,7 +111,7 @@ int showWrongword()
     }
 }
 
-/* 用户添加单词 */
+/* 用户添加词条 */
 void addWord(FILE *fp)
 {
     struct addWord list;
