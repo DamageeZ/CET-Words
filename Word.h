@@ -17,12 +17,17 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <stdlib.h>
-#include <time.h>
+#include <cstdlib>
+#include <ctime>
+
 using namespace std;
 
 string libChoose();
+
 int wordCount(string filePath);
+
 string loadWord(int countNumber, int type, string filePath);
+
 void showAll(int select, string filePath);
+
 void showWordList(string filePath, int count, int start);
