@@ -7,38 +7,38 @@
 
 
 #include<string>
-
-class User
-{
+#include <utility>
+#include "currentDTO.h"
+class User {
 private:
-    unsigned int UserId;
-    std::string UserName;
-    std::string UserPwd;
+    std::string userName;
+    std::string password;
+    unsigned int userId;
     unsigned int level;
+    unsigned int score;
+    short lastSignTime;
 public:
-    User();
+    User() {};
 
-    void addUser(User x);
+    static void Registers();
 
-    void delUser(User x);
+    static void Login(currentDTO *current);
 
-    unsigned int getUserId();
+    static void save();
 
-    void setUserId(unsigned int x);
+    static void read();
 
-    void setUserName(const char *x);
+    static void update(currentDTO *current);
+};
 
-    const char *getUserName();
+struct Node {
+    User info;
+    Node *next;
 
-    const char *getUserPwd();
-
-    unsigned int getLevel();
-
-    void setLevel(unsigned int x);
-
-    ~User();
-
-    void setUserPwd(const char *x);
+    Node(User user, Node *nextN = nullptr) {
+        info = std::move(user);
+        next = nextN;
+    }
 };
 
 #endif //CET_USER_H
