@@ -7,6 +7,7 @@
 
 
 #include<string>
+#include <utility>
 #include "currentDTO.h"
 class User {
 private:
@@ -15,16 +16,29 @@ private:
     unsigned int userId;
     unsigned int level;
     unsigned int score;
+    short lastSignTime;
 public:
     User() {};
 
     static void Registers();
 
-    static void Login(DTO *current);
+    static void Login(currentDTO *current);
 
     static void save();
 
     static void read();
+
+    static void update(currentDTO *current);
+};
+
+struct Node {
+    User info;
+    Node *next;
+
+    Node(User user, Node *nextN = nullptr) {
+        info = std::move(user);
+        next = nextN;
+    }
 };
 
 #endif //CET_USER_H
