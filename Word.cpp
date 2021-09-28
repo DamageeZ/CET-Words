@@ -89,3 +89,11 @@ void showWordList(string filePath, int count, int start) {
     }
     cout << "11、next page" << endl;
 }
+/*将回答错误的单词加入wrongWord.txt*/
+void addWrongWrod(string EN, string Attr, string CN){
+    string wrongWord = EN + ";" + Attr +";" + CN + ";";
+    ofstream outfile;
+    outfile.open("/Users/qiy/Desktop/Developments/C_Projects/learn_env/wrong.txt",ios::ate | ios::app);
+    outfile << wrongWord;
+    outfile.close();
+}
