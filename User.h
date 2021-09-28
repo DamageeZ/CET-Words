@@ -36,7 +36,7 @@ struct Node {
     User info;
     Node *next;
 
-    Node(User user, Node *nextN = nullptr) {
+    explicit Node(User user, Node *nextN = nullptr) {  //不允许使用隐式转换
         info = std::move(user);
         next = nextN;
     }

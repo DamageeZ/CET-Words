@@ -4,7 +4,8 @@
 
 #ifndef CET_CURRENTDTO_H
 #define CET_CURRENTDTO_H
-struct currentDTO {
+
+struct currentDTO { //用户状态传递，去除密码数据
     char UserName[20];
     unsigned int Id = 0;
     unsigned int level = 0;

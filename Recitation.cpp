@@ -1,135 +1,148 @@
 #include <iostream>
-#include <fstream>
 #include <string>
-#include <stdlib.h>
-#include <time.h>
+#include <cstdlib>
 #include "Word.h"
-#include "Word.cpp"
+#include "Recitation.h"
+#include <random>
 
 using namespace std;
 
-
 /*单词背诵拼写模式*/
-void wordSpellingModel(string filePath) {
-    string userAnswer;
-    int score = 0;
+void wordSpellingModel(const string &filePath, currentDTO *current) {
+//    string userAnswer;
+    int score = 0, total, done[10];
+    NodeWd *head = loadLib(filePath, &total);
+    Wd tp;
+    default_random_engine e;
+    uniform_int_distribution<int> d(1, total);
     for (int i = 0; i < 10; i++) {
-        cout << "请输入你的答案" << endl;
-        string show = loadWord(i, 2, filePath);//show chinese
-        string temp = loadWord(i, 1, filePath);
-        string rightAnswer = loadWord(i, 0, filePath);
-        cout << show << endl;
-        string userAnswer;
-        cin >> userAnswer;
-        switch (rightAnswer.compare(userAnswer)) {
-            case 0:
+        bool ok = false;
+        while (!ok) {
+            done[i] = d(e);
+            ok = true;
+            for (int j = 0; j < i; j++)
+                if (done[i] == done[j]) {
+                    ok = false;
+                    break;
+                }
+        }
+
+    }
+    char getAns[20], StandAns[20];
+    for (int i = 0; i < 10; i++) {
+        tp = seekWd(head, done[i]);
+        strcpy(StandAns, tp.EN.c_str());
+        cout << "\t" << tp.CN << "\t" << strlen(StandAns) << "个字母\t" << done[i] << endl;//show chinese
+        for (int k = 0; k < 3; k++) {
+            cout << "请输入你的答案" << endl;
+            cin >> getAns;
+            if (strcmp(StandAns, getAns) == 0) {
                 cout << "回答正确，下一个!" << endl;
                 score += 10;
                 break;
-
-            default:
+            } else {
                 cout << "回答错误！" << endl;
-                score -= 10;
-                break;
+                if (strlen(StandAns) == strlen(getAns)) {
+                    for (int j = 0; j < strlen((StandAns)); j++) {
+                        if (StandAns[j] == getAns[j]) {
+                            cout << getAns[j];
+                        } else {
+                            cout << "_";
+                        }
+                    }
+                    cout << endl;
+                } else {
+                    cout << "长度不正确" << endl;
+                }
+            }
+            cout << "正确答案：" << tp.EN << endl;
+            score -= 10;
         }
     }
+    current->score += score;
+    delNodeList(head);
 }
 
-/*随机数生成*/
-int randnumber(string filePath, int i) {
-    return rand() % (wordCount(filePath) - i);
-}
 
 /*选择题背诵模式*/
-void choiceQuestionModel(string filePath) {
-    int userChoice;
-    int score = 0;
-    cout << "本词库共计" << wordCount(filePath) << "词" << endl;
-    for (int i = 0; i < wordCount(filePath); i++) {
-        cout << loadWord(i, 0, filePath) << endl;
-        cout << 1 << loadWord(i, 2, filePath) << endl;
-        cout << 2 << loadWord(i + 1, 2, filePath) << endl;
-        cout << 3 << loadWord(i + 5, 2, filePath) << endl;
-        cout << 4 << loadWord(i + 6, 2, filePath) << endl;
+void choiceQuestionModel(const string &filePath, currentDTO *current) {
+    int total, score = 0;
+    char userChoice;
+    NodeWd *head = loadLib(filePath, &total);
+    cout << "本词库共计" << total << "词" << endl;
+    int done[10], ans[10];
+    default_random_engine e;
+    uniform_int_distribution<int> a(0, 3);
+    uniform_int_distribution<int> d(1, total);
+    for (int i = 0; i < 10; i++) {
+        done[i] = d(e);
+        ans[i] = a(e);
+    }
+    for (int i = 0; i < 10; i++) {
+        cout << seekWd(head, done[i]).EN << endl;
+        char sc = 'A';
+        for (int j = 0; j < 4; j++, sc++) {
+            if (ans[i] == j) cout << sc << "\t" << seekWd(head, done[i]).CN << endl;
+            else cout << sc << "\t" << seekWd(head, d(e)).CN << endl;
+        }
+
         cin >> userChoice;
-        if (userChoice == 1) {
+        if ((userChoice - 65) == ans[i]) {
             cout << "回答正确，下一个!" << endl;
             score += 10;
         } else {
+            addWrongWord(seekWd(head, done[i]), current);
             cout << "回答错误！" << endl;
             score -= 10;
         }
-
     }
-
+    cout << "本次背诵，您的分数为 " << score << " 分" << endl;
+    current->score += score;
+    delNodeList(head);
 }
 
-
-/*显示单词列表，并提供单个单词详细查看功能*/
-//存在bug，无法翻页
-void singleWordChoose(string filePath, int pages = 0) {
-    int start = 0, count = 10, select;
-    int temp;
-    showWordList(filePath, count, 10);
-    cout << "选择你要查看的单词。" << endl;
-    cin >> select;
-    switch (select) {
-        case 1:
-            showAll(0, filePath);
-            singleWordChoose(filePath);
-            break;
-        case 2:
-            showAll(1, filePath);
-            singleWordChoose(filePath);
-            break;
-        case 3:
-            showAll(2, filePath);
-            singleWordChoose(filePath);
-            break;
-        case 4:
-            showAll(3, filePath);
-            singleWordChoose(filePath);
-            break;
-        case 5:
-            showAll(4, filePath);
-            singleWordChoose(filePath);
-            break;
-        case 6:
-            showAll(5, filePath);
-            singleWordChoose(filePath);
-            break;
-        case 7:
-            showAll(6, filePath);
-            singleWordChoose(filePath);
-            break;
-        case 8:
-            showAll(7, filePath);
-            singleWordChoose(filePath);
-            break;
-        case 9:
-            showAll(8, filePath);
-            singleWordChoose(filePath);
-            break;
-        case 10:
-            showAll(9, filePath);
-            singleWordChoose(filePath);
-            break;
-        case 11:
-            singleWordChoose(filePath, start + 10);
-            break;
-        default:
-            break;
-    }
-}
 
 /*生词学习*/
-void learnWord(string filePath) {
-    singleWordChoose(filePath);
+void learnWord(const string &filePath) {
+    int select, total, nowPage = 1;
+    NodeWd *head = loadLib(filePath, &total);
+    NodeWd *tp = head, *pg = head;
+    int page = total / 10;
+    if (total % 10 != 0) page++;
+    while (true) {
+        tp = pg;
+        for (int i = 1; i <= 10 && tp != nullptr; i++) {
+            cout << "----------------" << endl;
+            cout << i + 10 * (nowPage - 1) << "、" << tp->info.EN << endl;
+            cout << "\t" << tp->info.Attr;
+            cout << " " << tp->info.CN << endl;
+//            cout << "----------------" << endl;
+            tp = tp->next;
+        }
+        cout << "第\t" << nowPage << "\t页";
+        //选择部分
+        cout << "选择你要查看的单词" << endl;
+        cin >> select;
+        if (select <= 0) break;
+        if (select == 11) {
+            pg = tp;
+            nowPage++;
+            continue;
+        } else {
+            showAll(head, nowPage * select);
+            system("cls");
+        }
+    }
+    delNodeList(head);
 }
 
 /*背诵主界面*/
-void wordReciate() {
+int wordRecite(currentDTO *current) {
     int selectModel = 0;
+    if (current->Id == 0) {
+        cout << "请先登录" << endl;
+        return 0;
+    }
     string filePath;
     cout << "***选择你想要进行的背诵模式***" << endl;
     cout << "******************************" << endl;
@@ -142,21 +155,20 @@ void wordReciate() {
     cin >> selectModel;
     switch (selectModel) {
         case 0:
-            filePath = libChoose();
-            learnWord(filePath);
+            learnWord(libChoose(current));
             break;
         case 1:
-            filePath = libChoose();
-            choiceQuestionModel(filePath);
+            choiceQuestionModel(libChoose(current), current);
             break;
         case 2:
-            filePath = libChoose();
-            wordSpellingModel(filePath);
+            wordSpellingModel(libChoose(current), current);
             break;
         case 3:
-            /**/
             break;
         default:
-            break;
+            return 1;
     }
+    return 0;
 }
+
+

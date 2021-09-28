@@ -1,33 +1,49 @@
-//
-// Created by zhouzhm1 on 2021/9/26.
-//
-
-// #ifndef CET_WORD_H
-// #define CET_WORD_H
-
-// #endif //CET_WORD_H
-// class Word {
-// private:
-//     char eng[46];
-//     enum PoS {
-//         n, adj, pron, adv, v, num, art, prep, conj, interj
-//     } pos;  //Pos Stands for Part of Speech 词性
-// };
-
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <utility>
+#include "currentDTO.h"
 
-using namespace std;
+struct Wd {
+    std::string EN;
+    std::string Attr;
+    std::string CN;
 
-string libChoose();
+    Wd() {};
 
-int wordCount(string filePath);
+    Wd(std::string &E, std::string &A, std::string &C) {
+        EN = E;
+        Attr = A;
+        CN = C;
+    }
+};
 
-string loadWord(int countNumber, int type, string filePath);
+struct NodeWd {
+    Wd info;
+    NodeWd *next;
 
-void showAll(int select, string filePath);
+    NodeWd(Wd word, NodeWd *n = nullptr) { //不允许使用隐式转换
+        info = std::move(word);
+        next = n;
+    }
+};
 
-void showWordList(string filePath, int count, int start);
+std::string libChoose(currentDTO *current);
+
+int wordCount(std::string filePath);
+
+NodeWd *loadLib(const std::string &filePath, int *total);
+
+void showAll(NodeWd *ptr, int index);
+
+//void showWordList(std::string filePath, int count, int start);
+
+void delNodeList(NodeWd *head);
+
+Wd seekWd(NodeWd *head, unsigned int index);
+
+void createFile(const std::string &filePath);
+
+void addWrongWord(const Wd &word, currentDTO *current);

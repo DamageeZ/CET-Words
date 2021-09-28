@@ -4,14 +4,12 @@
 
 using namespace std;
 
-void wordSpellingModel(string filePath);
+void wordSpellingModel(const string &filePath, currentDTO *current);
 
-int randnumber(string filePath, int i);
+//unsigned int randomNum(int edge);
 
-void choiceQuestionModel(string filePath);
+void choiceQuestionModel(const string &filePath, currentDTO *current);
 
-void singleWordChoose(string filePath, int pages = 0);
+void learnWord(const string &filePath);
 
-void learnWord(string filePath);
-
-void wordReciate();
+int wordRecite(currentDTO *current);

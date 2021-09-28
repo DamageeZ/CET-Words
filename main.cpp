@@ -3,9 +3,13 @@
 #include <cstring>
 #include <ctime>
 
+#define SYSCLEAR cls
+//#define  SYSCLEAR clear
 using namespace std;
 
 #include "User.h"
+#include "Recitation.h"
+#include "Word.h"
 
 void Signup(currentDTO *current) {
     current->level += 12;
@@ -46,8 +50,8 @@ int main() {
     time_t t = time(nullptr);
     si = localtime(&t);
     current->dateOfToday = si->tm_mday;
-
-    short control = 0;
+    int status = 0; //0 means normal
+    unsigned long control = 0;
     while (true) {
         cin >> control;
         switch (control) {
@@ -61,6 +65,9 @@ int main() {
                 User::Registers();
                 break;
             case 4:
+                do { status = wordRecite(current); }
+                while (status == 1);
+                User::update(current);
                 break;
             case 5:
                 break;
