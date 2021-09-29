@@ -30,7 +30,7 @@ struct NodeWd {
     }
 };
 
-std::string libChoose(currentDTO *current);
+std::string libChoose(currentDTO *current, int status = 0);
 
 int wordCount(std::string filePath);
 
@@ -44,6 +44,10 @@ void delNodeList(NodeWd *head);
 
 Wd seekWd(NodeWd *head, unsigned int index);
 
-void createFile(const std::string &filePath);
+//void createFile(const std::string &filePath);
 
-void addWrongWord(const Wd &word, currentDTO *current);
+void addWord(const Wd &word, const std::string &filePath);
+
+void addWord(const Wd &word, NodeWd **head);
+
+void saveLib(NodeWd *head, const std::string &filePath);

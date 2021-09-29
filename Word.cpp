@@ -12,14 +12,16 @@
 using namespace std;
 
 /*词库选择*/
-string libChoose(currentDTO *current) {
+string libChoose(currentDTO *current, int status) {
     int select;
     string Path;
-    cout << "***** 1、个人词库 *****" << endl;
-    cout << "***** 2、背诵错词 *****" << endl;
-    cout << "***** 3、系统词库 *****" << endl;
-    cout << "*****  选择词库: *****" << endl;
-    cin >> select;
+    if (status == 0) {
+        cout << "***** 1、个人词库 *****" << endl;
+        cout << "***** 2、背诵错词 *****" << endl;
+        cout << "***** 3、系统词库 *****" << endl;
+        cout << "*****  选择词库: *****" << endl;
+        cin >> select;
+    } else select = status;
     switch (select) {
         case 1:
             Path = "./src/lib/L_" + to_string(current->Id) + ".dat";
@@ -51,16 +53,17 @@ string libChoose(currentDTO *current) {
 //    return i / 3;
 //}
 
-
-
 /*加载单词功能实现 导入一整个单词本*/
 NodeWd *loadLib(const string &filePath, int *total) {
     NodeWd *hd = nullptr;
     ifstream file;
     file.open(filePath, ios::in);
-    while (!file.is_open()) {
+    if (!file.is_open()) {
+        ofstream ofile(filePath, ios::ate);
+        ofile.close();
 //        createFile(filePath);
-        cerr << "file don't exist" << endl;
+//        cerr << "file don't exist" << endl;
+        file.open(filePath, ios::in);
     }
     *total = 0;
     std::string strLine;
@@ -105,10 +108,10 @@ Wd seekWd(NodeWd *head, unsigned int index) {
     return head->info;
 }
 
-void createFile(const string &filePath) {
-    ofstream outfile(filePath, ios::out | ios::ate);
-    outfile.close();
-}
+//void createFile(const string &filePath) {
+//    ofstream outfile(filePath, ios::out | ios::ate);
+//    outfile.close();
+//}
 
 /*读取词库单词，并显示10个*/
 //void showWordList(string filePath, int count, int start) {
@@ -120,10 +123,35 @@ void createFile(const string &filePath) {
 //}
 
 /*将回答错误的单词加入wrongWord.dat*/
-void addWrongWord(const Wd &word, currentDTO *current) {
-    string wrongWord = word.EN + ";" + word.Attr + ";" + word.CN + ";";
+void addWord(const Wd &word, const string &filePath) {
+    NodeWd *head = nullptr;
+    int total;
+    head = loadLib(filePath, &total);
+    NodeWd *tp = head;
+    while (head != nullptr) {
+        if (word.EN == head->info.EN && word.Attr == head->info.Attr) {
+            return;
+        }
+        head = head->next;
+    }
+    tp = new NodeWd(word, tp);
+    saveLib(tp, filePath);
+
+}
+
+void saveLib(NodeWd *head, const string &filePath) {
     ofstream outfile;
-    outfile.open("./src/lib/R_" + to_string(current->Id) + ".dat", ios::out | ios::app);
-    outfile << wrongWord;
-    outfile.close();
+    outfile.open(filePath, ios::out);
+    NodeWd *tp;
+    while (head != nullptr) {
+        string Word = head->info.EN + ";" + head->info.Attr + ";" + head->info.CN + ";";
+        outfile << Word;
+        tp = head;
+        head = head->next;
+        delete tp;
+    }
+}
+
+void addWord(const Wd &word, NodeWd **head) {
+    *head = new NodeWd(word, *head);
 }
