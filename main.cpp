@@ -2,25 +2,32 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-
-#define SYSCLEAR cls
-//#define  SYSCLEAR clear
-using namespace std;
-
 #include "User.h"
 #include "Recitation.h"
 #include "Word.h"
 
-void Signup(currentDTO *current) {
+//#define SYSCLEAR cls
+//#define  SYSCLEAR clear
+
+using namespace std;
+
+/* 打卡操作 */
+void Signup(currentDTO *current)
+{
     current->level += 12;
     current->lastSignTime = current->dateOfToday;
     update(current);
 }
 
-void Menu(currentDTO *current) {
-    if (current->Id == 0) {
+/* 菜单显示 */
+void Menu(currentDTO *current)
+{
+    if (current->Id == 0)
+    {
         cout << "\n\t\t未登录" << endl;
-    } else {
+    }
+    else        //显示用户信息
+    {
         cout << "\t\t" << current->UserName << endl;
         cout << "\t\t经验：" << current->level << endl;
         cout << "\t\t打卡\t" << current->level / 12 << "\t天" << endl;
@@ -28,21 +35,28 @@ void Menu(currentDTO *current) {
     }
 
     cout << "***********************" << endl;
-    if (current->Id != 0 && current->lastSignTime == current->dateOfToday) {
+    
+    if (current->Id != 0 && current->lastSignTime == current->dateOfToday)
+    {
         cout << "*****     已打卡   *****" << endl;
-    } else cout << "*****  1、每日打卡  *****" << endl;
-    cout << "*****  2、用户登录  *****" << endl;
-    cout << "*****  3、用户注册  *****" << endl;
-    cout << "*****  4、单词学习  *****" << endl;
-    cout << "*****  5、词库管理  *****" << endl;
-    cout << "*****  6、退出登录  *****" << endl;
-    cout << "*****  7、退出软件  *****" << endl;
-    cout << "***********************" << endl;
+    }
+    else
+    {
+        cout << "*****  1、每日打卡  *****" << endl;
+        cout << "*****  2、用户登录  *****" << endl;
+        cout << "*****  3、用户注册  *****" << endl;
+        cout << "*****  4、单词学习  *****" << endl;
+        cout << "*****  5、词库管理  *****" << endl;
+        cout << "*****  6、退出登录  *****" << endl;
+        cout << "*****  7、退出软件  *****" << endl;
+        cout << "***********************" << endl;
+    }
 }
 
-int main() {
+int main()
+{
     currentDTO *current = (currentDTO *) malloc(sizeof(currentDTO));
-    memset(current, 0, sizeof(currentDTO));
+    memset(current, 0, sizeof(currentDTO));     //初始化内存
     std::cout << "Welcome to BDC\n";
     Menu(current);
 
@@ -50,11 +64,14 @@ int main() {
     time_t t = time(nullptr);
     si = localtime(&t);
     current->dateOfToday = si->tm_mday;
-    int status = 0; //0 means normal
+    int status = 0;         //0 代表正常
     unsigned long control = 0;
-    while (true) {
+    
+    while (true)
+    {
         cin >> control;
-        switch (control) {
+        switch (control)
+        {
             case 1:
                 Signup(current);
                 update(current);
@@ -74,11 +91,11 @@ int main() {
                 libManage(current);
                 break;
             case 6:
-                update(current);  //实现退出登录前保存个人信息
+                update(current);        //实现退出登录前保存个人信息
                 memset(current, 0, sizeof(currentDTO));
                 break;
             case 7:
-                update(current); //实现退出程序前保存个人信息
+                update(current);        //实现退出程序前保存个人信息
                 return 0;
             default :
                 cout << "error input" << endl;

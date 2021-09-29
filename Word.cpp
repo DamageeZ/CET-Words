@@ -1,6 +1,6 @@
-//
-// 2021/9/26.
-//
+/**
+*   Created by zhouzhm1 on 2021/9/27.
+*/
 
 #include "Word.h"
 #include <iostream>
@@ -14,20 +14,26 @@ string libChoose(currentDTO *current, int status)
 {
     int select;
     string Path;
-    if (status == 0) {
+    
+    if (status == 0)
+    {
         cout << "***** 1、个人词库   *****" << endl;
         cout << "***** 2、个人错词库 *****" << endl;
         cout << "***** 3、系统词库   *****" << endl;
         cout << "*****  选择词库:   *****" << endl;
         cout << "***** 9、返回主页   *****" << endl;
         cin >> select;
-    } else select = status;
-    switch (select) {
+    }
+    else
+        select = status;
+    
+    switch (select)
+    {
         case 1:
             Path = "./src/lib/L_" + to_string(current->Id) + ".dat";
             break;
         case 2:
-            Path = "./src/lib/R_" + to_string(current->Id) + ".dat"; //R means Re-learn
+            Path = "./src/lib/R_" + to_string(current->Id) + ".dat";     //R 代表重新学习的词库
             break;
         case 3:
             Path = "./src/lib/defaultWordLib.dat";
@@ -56,24 +62,30 @@ string libChoose(currentDTO *current, int status)
 //    return i / 3;
 //}
 
-/*加载单词功能实现 导入一整个单词本*/
-NodeWd *loadLib(const string &filePath, int *total) {
+/* 加载单词功能实现 导入一整个单词本 */
+NodeWd *loadLib(const string &filePath, int *total)
+{
     NodeWd *hd = nullptr;
     ifstream file;
-    file.open(filePath, ios::in);
-    if (!file.is_open()) {
+    file.open(filePath, ios::in);       //以读方式打开文件
+    
+    if (!file.is_open())
+    {
         ofstream ofile(filePath, ios::ate);
         ofile.close();
 //        createFile(filePath);
 //        cerr << "file don't exist" << endl;
-        file.open(filePath, ios::in);
+        file.open(filePath, ios::in);       //尝试重新打开文件
     }
+    
     *total = 0;
     std::string strLine;
-    for (Wd temp; getline(file, strLine, ';');) {
-        temp.EN = strLine;//get EN
-        getline(file, temp.Attr, ';');//get Attr
-        getline(file, temp.CN, ';');//get CN
+    
+    for (Wd temp; getline(file, strLine, ';');)     //以 “；" 作为分隔符
+    {
+        temp.EN = strLine;                                  //获取英语
+        getline(file, temp.Attr, ';');        //获取词性
+        getline(file, temp.CN, ';');          //获取中文
         hd = new NodeWd(temp, hd);
         (*total)++;
     }
@@ -82,16 +94,18 @@ NodeWd *loadLib(const string &filePath, int *total) {
 }
 
 /*显示单词全部信息*/
-void showAll(NodeWd *tp, int index) {
-    for (int i = 0; i < index - 1 && tp != nullptr; i++) {
+void showAll(NodeWd *tp, int index)
+{
+    for (int i = 0; i < index - 1 && tp != nullptr; i++)
+    {
         tp = tp->next;
     }
     if (tp != nullptr)
     {
         cout << "----------------" << endl;
-        cout << "\t\t" << tp->info.EN << endl;
-        cout << "\t" << tp->info.Attr;
-        cout << " " << tp->info.CN << endl;
+        cout << "\t\t" << tp->info.EN << endl;      //显示英语
+        cout << "\t" << tp->info.Attr;              //显示词性
+        cout << " " << tp->info.CN << endl;         //显示中文
         cout << "----------------" << endl;
     }
 }
