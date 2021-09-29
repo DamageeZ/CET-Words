@@ -13,10 +13,11 @@ using namespace std;
 int UserCount = 0;
 
 //User user[MAXUSER];
-Node *head = nullptr;
+Node *head = nullptr;   //链表头指针
 
 //save to disk
-void User::save() {
+void User::save()
+{
     ofstream outfile("./src/user.dat", ios::out);
 
 //    for (int i = 0; i < UserCount; i++) {
@@ -28,7 +29,8 @@ void User::save() {
 //        outfile << user[i].lastSignTime << endl;
 //    }
     Node *tp;
-    while (head != nullptr) {
+    while (head != nullptr)     //将用户信息存入文件
+    {
         outfile << head->info.userId << endl;
         outfile << head->info.userName << endl;
         outfile << head->info.password << endl;
@@ -36,19 +38,21 @@ void User::save() {
         outfile << head->info.score << endl;
         outfile << head->info.lastSignTime << endl;
         tp = head;
-        head = head->next;
+        head = head->next;      //指针指向下一个节点
         delete tp;
     }
     outfile.close();
 }
 
 //read to ram
-void User::read() {
+void User::read()
+{
     ifstream infile("./src/user.dat", ios::in);
 
     UserCount = 0;
 
-    if (!infile.is_open()) {
+    if (!infile.is_open())
+    {
         cerr << "file can't open" << endl;
         save();
     }
@@ -64,7 +68,8 @@ void User::read() {
 //    }
     unsigned int help;
 
-    for (User tuser; infile >> help; UserCount++) {
+    for (User tuser; infile >> help; UserCount++)       //读取用户信息
+    {
         tuser.userId = help;
         infile >> tuser.userName;
         infile >> tuser.password;
@@ -76,12 +81,14 @@ void User::read() {
     infile.close();
 }
 
-void User::Registers() {
+void User::Registers()
+{
     read();
 
     string userN;
     bool auth = false;
-    while (!auth) {
+    while (!auth)
+    {
         auth = true;
         cout << "请输入用户名" << endl;
         cin >> userN;
@@ -94,18 +101,21 @@ void User::Registers() {
 //        }
 //        user[UserCount].userName = userN;
         Node *tp = head;
-        while (tp != nullptr) {
-            if (tp->info.userName == userN) {
+        while (tp != nullptr)
+        {
+            if (tp->info.userName == userN)
+            {
                 cout << "当前用户名已经注册,ID为\t" << tp->info.userId << endl;
                 auth = false;
                 save();
                 break;
             }
-            tp = tp->next;
+            tp = tp->next;      //遍历用户列表
         }
     }
     auth = false;
-    while (!auth) {
+    while (!auth)
+    {
         User tuser;
         cout << "请输入密码；";
         string passwd;
@@ -146,10 +156,13 @@ void User::Registers() {
         string passwd2;
         cin >> passwd2;
         auth = true;
-        if (passwd != passwd2) {
+        if (passwd != passwd2)
+        {
             cout << "两次输入的密码不同" << endl;
             auth = false;
-        } else {
+        }
+        else
+        {
 //            user[UserCount].userId = 190000 + UserCount;
 //            user[UserCount].level = 0;
 //            user[UserCount].score = 0;
@@ -165,7 +178,8 @@ void User::Registers() {
     }
 }
 
-void User::Login(currentDTO *current) {
+void User::Login(currentDTO *current)
+{
     read();
 
     unsigned int Id;
@@ -181,19 +195,23 @@ void User::Login(currentDTO *current) {
 //        }
 //    }
     Node *tp = head;
-    while (tp != nullptr) {
-        if (tp->info.userId == Id) {
+    while (tp != nullptr)
+    {
+        if (tp->info.userId == Id)
+        {
             found = true;
             break;
         }
         tp = tp->next;
     }
-    if (!found) {
+    if (!found)
+    {
         cout << "Id" << Id << "未被注册，请注册后重试。" << endl;
         return;
     }
 
-    for (int j = 0; j < 3; j++) {
+    for (int j = 0; j < 3; j++)
+    {
         cout << "请输入密码" << flush;
 //        int x = 0;
 //        while ((ch = getch()) != '\r' && x <= 20) {
@@ -219,7 +237,8 @@ void User::Login(currentDTO *current) {
 //        } else {
 //            cout << "密码错误" << endl;
 //        }
-        if (tp->info.password == pass) {
+        if (tp->info.password == pass)
+        {
             cout << "登录成功" << endl;
             current->Id = tp->info.userId;
             current->score = tp->info.score;
@@ -227,14 +246,17 @@ void User::Login(currentDTO *current) {
             current->lastSignTime = tp->info.lastSignTime;
             strcpy(current->UserName, tp->info.userName.c_str());
             break;
-        } else {
-            cout << "密码错误" << endl;
+        }
+        else
+        {
+            cout << "密码错误" << "\n请再次输入密码"<<"\n您还有<<j-1<<次机会"<< endl;
         }
     }
     save();
 }
 
-void User::update(currentDTO *current) {
+void User::update(currentDTO *current)
+{
     read();
 //    for (int i = 0; i < UserCount; i++) {
 //        if (current->Id == user[i].userId) {
@@ -245,8 +267,10 @@ void User::update(currentDTO *current) {
 //        }
 //    }
     Node *tp = head;
-    while (tp != nullptr) {
-        if (current->Id == tp->info.userId) {
+    while (tp != nullptr)
+    {
+        if (current->Id == tp->info.userId)
+        {
             tp->info.score = current->score;
             tp->info.level = current->level;
             tp->info.lastSignTime = current->lastSignTime;
