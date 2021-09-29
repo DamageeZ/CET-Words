@@ -71,6 +71,7 @@ int main() {
                 User::update(current);
                 break;
             case 5:
+                libManage(current);
                 break;
             case 6:
                 User::update(current);  //实现退出登录前保存个人信息
