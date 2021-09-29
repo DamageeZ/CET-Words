@@ -18,7 +18,7 @@ string libChoose(currentDTO *current, int status) {
         cout << "***** 2、个人错词库 *****" << endl;
         cout << "***** 3、系统词库   *****" << endl;
         cout << "*****  选择词库:   *****" << endl;
-        cout << "***** 0、返回主页   *****" << endl;
+        cout << "***** 9、返回主页   *****" << endl;
         cin >> select;
     } else select = status;
     switch (select) {
@@ -30,6 +30,9 @@ string libChoose(currentDTO *current, int status) {
             break;
         case 3:
             Path = "./src/lib/defaultWordLib.dat";
+            break;
+        case 9:
+            Path = "returnHome";
             break;
         default:
             cout << "未正确选择题库，载入系统默认词库" << endl;

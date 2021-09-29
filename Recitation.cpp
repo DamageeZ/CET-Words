@@ -55,10 +55,11 @@ void wordSpellingModel(const string &filePath, currentDTO *current) {
                     cout << "长度不正确" << endl;
                 }
             }
+            if (k == 2)score -= 10;
         }
         cout << "正确答案：" << tp.EN << endl;
         addWord(seekWd(head, done[i + 2]), libChoose(current, 2));
-        score -= 10;
+
     }
     current->score += score;
     delNodeList(head);
@@ -106,7 +107,6 @@ void choiceQuestionModel(const string &filePath, currentDTO *current) {
             cout << "回答错误！" << endl;
             score -= 10;
         }
-        if (head == nullptr) break;
     }
     cout << "本次背诵，您的分数为 " << score << " 分" << endl;
     current->score += score;
@@ -153,7 +153,6 @@ void R_choiceQuestionModel(currentDTO *current) {
             cout << "回答错误！" << endl;
             score -= 10;
         }
-        if (head == nullptr) break;
     }
     cout << "本次背诵，您的分数为 " << score << " 分" << endl;
     current->score += score;
@@ -221,15 +220,20 @@ int wordRecite(currentDTO *current) {
     cin >> selectModel;
     switch (selectModel) {
         case 0:
-            learnWord(libChoose(current));
+            filePath = libChoose(current);
+            if (filePath == "returnHome") break;
+            else learnWord(filePath);
             break;
         case 1:
             filePath = libChoose(current);
             if (filePath == "./src/lib/R_" + to_string(current->Id) + ".dat") R_choiceQuestionModel(current);
+            else if (filePath == "returnHome") break;
             else choiceQuestionModel(filePath, current);
             break;
         case 2:
-            wordSpellingModel(libChoose(current), current);
+            filePath = libChoose(current);
+            if (filePath == "returnHome") break;
+            else wordSpellingModel(filePath, current);
             break;
         case 3:
             break;
