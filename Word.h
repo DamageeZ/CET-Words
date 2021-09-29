@@ -32,7 +32,7 @@ struct NodeWd {
 
 std::string libChoose(currentDTO *current, int status = 0);
 
-int wordCount(std::string filePath);
+//int wordCount(std::string filePath);
 
 NodeWd *loadLib(const std::string &filePath, int *total);
 
@@ -50,4 +50,10 @@ void addWord(const Wd &word, const std::string &filePath);
 
 void addWord(const Wd &word, NodeWd **head);
 
+void addWord(const std::string &filePath);
+
+void delWord(const std::string &filePath);
+
 void saveLib(NodeWd *head, const std::string &filePath);
+
+void libManage(currentDTO *current);
