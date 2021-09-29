@@ -14,7 +14,7 @@ using namespace std;
 void Signup(currentDTO *current) {
     current->level += 12;
     current->lastSignTime = current->dateOfToday;
-    User::update(current);
+    update(current);
 }
 
 void Menu(currentDTO *current) {
@@ -57,28 +57,28 @@ int main() {
         switch (control) {
             case 1:
                 Signup(current);
-                User::update(current);
+                update(current);
                 break;
             case 2:
-                User::Login(current);
+                Login(current);
                 break;
             case 3:
-                User::Registers();
+                Registers();
                 break;
             case 4:
                 do { status = wordRecite(current); }
                 while (status == 1);
-                User::update(current);
+                update(current);
                 break;
             case 5:
                 libManage(current);
                 break;
             case 6:
-                User::update(current);  //实现退出登录前保存个人信息
+                update(current);  //实现退出登录前保存个人信息
                 memset(current, 0, sizeof(currentDTO));
                 break;
             case 7:
-                User::update(current); //实现退出程序前保存个人信息
+                update(current); //实现退出程序前保存个人信息
                 return 0;
             default :
                 cout << "error input" << endl;

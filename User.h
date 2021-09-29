@@ -10,26 +10,17 @@
 #include <utility>
 #include "currentDTO.h"
 
-class User {
-private:
+
+struct User {
+
     std::string userName;
     std::string password;
     unsigned int userId;
     unsigned int level;
     unsigned int score;
     short lastSignTime;
-public:
+
     User() {};
-
-    static void Registers();
-
-    static void Login(currentDTO *current);
-
-    static void save();
-
-    static void read();
-
-    static void update(currentDTO *current);
 };
 
 struct Node {
@@ -41,5 +32,15 @@ struct Node {
         next = nextN;
     }
 };
+
+void Registers();
+
+void Login(currentDTO *current);
+
+void save(Node *head);
+
+Node *read(int *userCount);
+
+void update(currentDTO *current);
 
 #endif //CET_USER_H
