@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "cstring"
 #include <cstdlib>
 #include "Word.h"
 #include "Recitation.h"
@@ -242,5 +243,3 @@ int wordRecite(currentDTO *current) {
     }
     return 0;
 }
-
-

@@ -10,7 +10,8 @@
 using namespace std;
 
 /*词库选择*/
-string libChoose(currentDTO *current, int status) {
+string libChoose(currentDTO *current, int status)
+{
     int select;
     string Path;
     if (status == 0) {
@@ -85,7 +86,8 @@ void showAll(NodeWd *tp, int index) {
     for (int i = 0; i < index - 1 && tp != nullptr; i++) {
         tp = tp->next;
     }
-    if (tp != nullptr) {
+    if (tp != nullptr)
+    {
         cout << "----------------" << endl;
         cout << "\t\t" << tp->info.EN << endl;
         cout << "\t" << tp->info.Attr;

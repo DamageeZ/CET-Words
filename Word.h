@@ -1,3 +1,6 @@
+#ifndef CET_WORD_H
+#define CET_WORD_H
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -34,6 +37,7 @@ std::string libChoose(currentDTO *current, int status = 0);
 
 //int wordCount(std::string filePath);
 
+
 NodeWd *loadLib(const std::string &filePath, int *total);
 
 void showAll(NodeWd *ptr, int index);
@@ -57,5 +61,7 @@ void delWord(const Wd &word, const std::string &filePath);
 void saveLib(NodeWd *head, const std::string &filePath);
 
 void libManage(currentDTO *current);
+
+#endif
 
 void modifyWord(const std::string &filePath);
