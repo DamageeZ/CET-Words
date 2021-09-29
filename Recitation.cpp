@@ -83,12 +83,19 @@ void choiceQuestionModel(const string &filePath, currentDTO *current) {
         cout << seekWd(head, done[i + 2]).EN << endl;
         char sc = 'A';
         for (int j = 0; j < 4; j++, sc++) {
-            if (ans[i + 2] == j) cout << sc << "\t" << seekWd(head, done[i + 2]).CN << endl;
-            else cout << sc << "\t" << seekWd(head, d(e)).CN << endl;
+            if (ans[i + 2] == j)
+                cout << sc << "\t" << seekWd(head, done[i + 2]).CN << "\t" << seekWd(head, done[i + 2]).Attr << endl;
+            else {
+                int Err = 0;
+                do {
+                    Err = def(e);
+                } while (Err == done[i]);
+                cout << sc << "\t" << seekWd(headDef, Err).CN << "\t" << seekWd(headDef, Err).Attr << endl;
+            }
         }
 
         cin >> userChoice;
-        if ((userChoice - 65) == ans[i + 2]) {
+        if ((userChoice - 65) == ans[i + 2] || (userChoice - 97) == ans[i + 2]) {
             cout << "回答正确，下一个!" << endl;
             score += 10;
         } else {
@@ -96,6 +103,7 @@ void choiceQuestionModel(const string &filePath, currentDTO *current) {
             cout << "回答错误！" << endl;
             score -= 10;
         }
+        if (head == nullptr) break;
     }
     cout << "本次背诵，您的分数为 " << score << " 分" << endl;
     current->score += score;

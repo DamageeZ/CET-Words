@@ -4,11 +4,9 @@
 
 #include "Word.h"
 #include <iostream>
-#include <fstream>
 #include <string>
-#include <cstdlib>
-#include <ctime>
 #include "Recitation.h"
+
 using namespace std;
 
 /*词库选择*/
@@ -136,7 +134,6 @@ void addWord(const Wd &word, const string &filePath) {
     }
     tp = new NodeWd(word, tp);
     saveLib(tp, filePath);
-
 }
 
 void saveLib(NodeWd *head, const string &filePath) {
@@ -180,20 +177,23 @@ void libManage(currentDTO *current) {
     cout << "*****\t\t0、返回上级菜单   *****" << endl;
     cout << "******************************" << endl;
     int a;
+    bool b;
     while (true) {
         cout << "输入对应的数字进行管理:" << endl;
         cin >> a;
         switch (a) {
             case 1:
-                addWord(libChoose(current));
+
+                addWord(libChoose(current, &b));
                 break;
             case 2:
-                delWord(libChoose(current));
+                delWord(libChoose(current, &b));
                 break;
             case 3:
-                learnWord(libChoose(current));
+                learnWord(libChoose(current, &b));
+                break;
             case 4:
-                modifyWord(libChoose(current));
+                modifyWord(libChoose(current, &b));
                 break;
             case 0:
                 return;
@@ -243,6 +243,7 @@ void modifyWord(const string &filePath) {
             cout << endl << "中文:\t";
             cin >> wd.CN;
         }
+        tp = tp->next;
     }
     saveLib(head, filePath);
     cout << "修改完成" << endl;
