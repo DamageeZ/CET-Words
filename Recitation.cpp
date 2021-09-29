@@ -126,7 +126,7 @@ void learnWord(const string &filePath) {
         }
         cout << "第\t" << nowPage << "\t页";
         //选择部分
-        cout << "选择你要查看的单词" << endl;
+        cout << "选择你要查看的单词,输入0返回主菜单,输入11下一页" << endl;
         cin >> select;
         if (select <= 0) break;
         if (select == 11) {

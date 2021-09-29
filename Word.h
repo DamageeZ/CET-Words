@@ -48,8 +48,6 @@ Wd seekWd(NodeWd *head, unsigned int index);
 
 void addWord(const Wd &word, const std::string &filePath);
 
-void addWord(const Wd &word, NodeWd **head);
-
 void addWord(const std::string &filePath);
 
 void delWord(const std::string &filePath);
@@ -57,3 +55,5 @@ void delWord(const std::string &filePath);
 void saveLib(NodeWd *head, const std::string &filePath);
 
 void libManage(currentDTO *current);
+
+void modifyWord(const std::string &filePath);

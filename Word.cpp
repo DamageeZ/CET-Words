@@ -8,7 +8,7 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
-
+#include "Recitation.h"
 using namespace std;
 
 /*词库选择*/
@@ -153,9 +153,6 @@ void saveLib(NodeWd *head, const string &filePath) {
     outfile.close();
 }
 
-void addWord(const Wd &word, NodeWd **head) {
-    *head = new NodeWd(word, *head);
-}
 
 void addWord(const string &filePath) {
     Wd wd;
@@ -194,7 +191,10 @@ void libManage(currentDTO *current) {
                 delWord(libChoose(current));
                 break;
             case 3:
+                learnWord(libChoose(current));
             case 4:
+                modifyWord(libChoose(current));
+                break;
             case 0:
                 return;
             default :
@@ -227,4 +227,23 @@ void delWord(const string &filePath) {
     }
     saveLib(head, filePath);
     cout << "删除完成" << endl;
+}
+
+void modifyWord(const string &filePath) {
+    Wd wd;
+    int total;
+    cout << "请输入要修改的单词的英文：\t";
+    cin >> wd.EN;
+    NodeWd *head = loadLib(filePath, &total);
+    NodeWd *tp = head;
+    while (tp != nullptr) {
+        if (tp->info.EN == wd.EN) {
+            cout << "请输入新的词汇信息\t" << endl << "词性:\t";
+            cin >> wd.Attr;
+            cout << endl << "中文:\t";
+            cin >> wd.CN;
+        }
+    }
+    saveLib(head, filePath);
+    cout << "修改完成" << endl;
 }
