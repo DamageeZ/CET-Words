@@ -18,6 +18,7 @@ string libChoose(currentDTO *current, int status) {
         cout << "***** 2、个人错词库 *****" << endl;
         cout << "***** 3、系统词库   *****" << endl;
         cout << "*****  选择词库:   *****" << endl;
+        cout << "***** 0、返回主页   *****" << endl;
         cin >> select;
     } else select = status;
     switch (select) {
@@ -177,23 +178,21 @@ void libManage(currentDTO *current) {
     cout << "*****\t\t0、返回上级菜单   *****" << endl;
     cout << "******************************" << endl;
     int a;
-    bool b;
     while (true) {
         cout << "输入对应的数字进行管理:" << endl;
         cin >> a;
         switch (a) {
             case 1:
-
-                addWord(libChoose(current, &b));
+                addWord(libChoose(current));
                 break;
             case 2:
-                delWord(libChoose(current, &b));
+                delWord(libChoose(current));
                 break;
             case 3:
-                learnWord(libChoose(current, &b));
+                learnWord(libChoose(current));
                 break;
             case 4:
-                modifyWord(libChoose(current, &b));
+                modifyWord(libChoose(current));
                 break;
             case 0:
                 return;
@@ -212,21 +211,59 @@ void delWord(const string &filePath) {
     cin >> wd.EN;
     NodeWd *head = loadLib(filePath, &total);
     NodeWd *tp = head;
+    NodeWd *tp1 = nullptr;
     NodeWd *del = nullptr;
-    while (tp != nullptr && tp->next != nullptr) {
-        if (tp->next->info.EN == wd.EN) {
-            del = tp->next;
-            tp->next = del->next;
-            delete del;
+    bool isFirst = true;
+    while (tp != nullptr) {
+        if (tp->info.EN == wd.EN) {
+            del = tp;
+            if (isFirst) {
+                head = tp->next;
+                del->next = nullptr;
+                delete tp;
+                break;
+            } else {
+                tp1->next = tp->next;
+                del->next = nullptr;
+                delete del;
+                break;
+            }
         }
+        isFirst = false;
+        tp1 = tp;
         tp = tp->next;
-    }
-    if (tp != nullptr && tp->next == nullptr) {
-        delete tp;
-        head = nullptr;
     }
     saveLib(head, filePath);
     cout << "删除完成" << endl;
+}
+
+void delWord(const Wd &wd, const string &filePath) {
+    int total;
+    NodeWd *head = loadLib(filePath, &total);
+    NodeWd *tp = head;
+    NodeWd *tp1 = nullptr;
+    NodeWd *del = nullptr;
+    bool isFirst = true;
+    while (tp != nullptr) {
+        if (tp->info.EN == wd.EN) {
+            del = tp;
+            if (isFirst) {
+                head = tp->next;
+                del->next = nullptr;
+                delete tp;
+                break;
+            } else {
+                tp1->next = tp->next;
+                del->next = nullptr;
+                delete del;
+                break;
+            }
+        }
+        isFirst = false;
+        tp1 = tp;
+        tp = tp->next;
+    }
+    saveLib(head, filePath);
 }
 
 void modifyWord(const string &filePath) {

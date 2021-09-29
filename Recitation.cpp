@@ -67,14 +67,17 @@ void wordSpellingModel(const string &filePath, currentDTO *current) {
 
 /*选择题背诵模式*/
 void choiceQuestionModel(const string &filePath, currentDTO *current) {
-    int total, score = 0;
+    int total, score = 0, defTotal;
     char userChoice;
+    string defPath = "./src/lib/defaultWordLib.dat";
     NodeWd *head = loadLib(filePath, &total);
+    NodeWd *defHead = loadLib(defPath, &defTotal);
     cout << "本词库共计" << total << "词" << endl;
     int done[12], ans[12];
     default_random_engine e;
     uniform_int_distribution<int> a(0, 3);
     uniform_int_distribution<int> d(1, total);
+    uniform_int_distribution<int> def(1, defTotal);
     for (int i = 0; i < 12; i++) {
         done[i] = d(e);
         ans[i] = a(e);
@@ -90,7 +93,7 @@ void choiceQuestionModel(const string &filePath, currentDTO *current) {
                 do {
                     Err = def(e);
                 } while (Err == done[i]);
-                cout << sc << "\t" << seekWd(headDef, Err).CN << "\t" << seekWd(headDef, Err).Attr << endl;
+                cout << sc << "\t" << seekWd(defHead, Err).CN << "\t" << seekWd(defHead, Err).Attr << endl;
             }
         }
 
@@ -110,6 +113,52 @@ void choiceQuestionModel(const string &filePath, currentDTO *current) {
     delNodeList(head);
 }
 
+void R_choiceQuestionModel(currentDTO *current) {
+    int total, score = 0, defTotal;
+    char userChoice;
+    string defPath = "./src/lib/defaultWordLib.dat";
+    NodeWd *head = loadLib(libChoose(current, 2), &total);
+    NodeWd *defHead = loadLib(defPath, &defTotal);
+    cout << "本词库共计" << total << "词" << endl;
+    int done[12], ans[12];
+    default_random_engine e;
+    uniform_int_distribution<int> a(0, 3);
+    uniform_int_distribution<int> d(1, total);
+    uniform_int_distribution<int> def(1, defTotal);
+    for (int i = 0; i < 12; i++) {
+        done[i] = d(e);
+        ans[i] = a(e);
+    }
+    for (int i = 0; i < 10; i++) {
+        cout << seekWd(head, done[i + 2]).EN << endl;
+        char sc = 'A';
+        for (int j = 0; j < 4; j++, sc++) {
+            if (ans[i + 2] == j)
+                cout << sc << "\t" << seekWd(head, done[i + 2]).CN << "\t" << seekWd(head, done[i + 2]).Attr << endl;
+            else {
+                int Err = 0;
+                do {
+                    Err = def(e);
+                } while (Err == done[i]);
+                cout << sc << "\t" << seekWd(defHead, Err).CN << "\t" << seekWd(defHead, Err).Attr << endl;
+            }
+        }
+        cin >> userChoice;
+        if ((userChoice - 65) == ans[i + 2] || (userChoice - 97) == ans[i + 2]) {
+            cout << "回答正确，下一个!" << endl;
+            delWord(seekWd(head, done[i + 2]), libChoose(current, 2));
+            score += 10;
+        } else {
+            addWord(seekWd(head, done[i + 2]), libChoose(current, 2));
+            cout << "回答错误！" << endl;
+            score -= 10;
+        }
+        if (head == nullptr) break;
+    }
+    cout << "本次背诵，您的分数为 " << score << " 分" << endl;
+    current->score += score;
+    delNodeList(head);
+}
 
 /*生词学习*/
 void learnWord(const string &filePath) {
@@ -175,7 +224,9 @@ int wordRecite(currentDTO *current) {
             learnWord(libChoose(current));
             break;
         case 1:
-            choiceQuestionModel(libChoose(current), current);
+            filePath = libChoose(current);
+            if (filePath == "./src/lib/R_" + to_string(current->Id) + ".dat") R_choiceQuestionModel(current);
+            else choiceQuestionModel(filePath, current);
             break;
         case 2:
             wordSpellingModel(libChoose(current), current);

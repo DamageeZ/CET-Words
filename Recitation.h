@@ -13,3 +13,5 @@ void choiceQuestionModel(const string &filePath, currentDTO *current);
 void learnWord(const string &filePath);
 
 int wordRecite(currentDTO *current);
+
+void R_choiceQuestionModel(currentDTO *current);

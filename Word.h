@@ -52,6 +52,8 @@ void addWord(const std::string &filePath);
 
 void delWord(const std::string &filePath);
 
+void delWord(const Wd &word, const std::string &filePath);
+
 void saveLib(NodeWd *head, const std::string &filePath);
 
 void libManage(currentDTO *current);
