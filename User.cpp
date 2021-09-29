@@ -207,6 +207,7 @@ void User::Login(currentDTO *current)
     if (!found)
     {
         cout << "Id" << Id << "未被注册，请注册后重试。" << endl;
+        save();
         return;
     }
 
