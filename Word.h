@@ -1,3 +1,7 @@
+/**
+*   Created by zhouzhm1 on 2021/9/26.
+*/
+
 #ifndef CET_WORD_H
 #define CET_WORD_H
 
@@ -9,7 +13,7 @@
 #include <utility>
 #include "currentDTO.h"
 
-struct Wd       //定义单词
+struct Wd       //定义单词信息结构体
 {
     std::string EN;
     std::string Attr;

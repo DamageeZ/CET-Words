@@ -1,3 +1,7 @@
+/**
+*   Created by zhouzhm1 on 2021/9/26.
+*/
+
 #ifndef CET_REC_H
 #define CET_REC_H
 
@@ -17,6 +21,6 @@ void learnWord(const string &filePath);
 
 int wordRecite(currentDTO *current);
 
-#endif
-
 void R_choiceQuestionModel(currentDTO *current);
+
+#endif
