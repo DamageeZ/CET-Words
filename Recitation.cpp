@@ -103,7 +103,7 @@ void choiceQuestionModel(const string &filePath, currentDTO *current)
     int done[12], ans[12];
     default_random_engine e;        //创建随机数引擎
     uniform_int_distribution<int> a(0, 3);      //随机三个错误答案
-    uniform_int_distribution<int> d(1, total);      //在全部单词里随机选择
+    uniform_int_distribution<int> d(1, total);      //在全部用户单词里随机选择
     uniform_int_distribution<int> def(1, defTotal);     //在系统里随机选择
     
     for (int i = 0; i < 12; i++)
@@ -113,15 +113,15 @@ void choiceQuestionModel(const string &filePath, currentDTO *current)
     }
     for (int i = 0; i < 10; i++)
     {
-        cout << seekWd(head, done[i + 2]).EN << endl;       //输出英语单词
+        cout << seekWd(head, done[i + 2]).EN << endl;       //随机输出英语单词
         char sc = 'A';
         for (int j = 0; j < 4; j++, sc++)       //生成选项
         {
-            if (ans[i + 2] == j)        //生成正确答案对应的中文
+            if (ans[i + 2] == j)        //在四个选项中随机生成正确答案对应的中文
             {
                 cout << sc << "\t" << seekWd(head, done[i + 2]).CN << "\t" << seekWd(head, done[i + 2]).Attr << endl;
             }
-            else        //三个错误选项生成
+            else
             {
                 int Err = 0;
                 do
@@ -133,14 +133,14 @@ void choiceQuestionModel(const string &filePath, currentDTO *current)
         }
 
         cin >> userChoice;
-        if ((userChoice - 65) == ans[i + 2] || (userChoice - 97) == ans[i + 2])
+        if ((userChoice - 65) == ans[i + 2] || (userChoice - 97) == ans[i + 2])     //用户输入大小写选项均可识别
         {
             cout << "回答正确，下一个!" << endl;
             score += 10;
         }
         else
         {
-            addWord(seekWd(head, done[i + 2]), libChoose(current, 2));
+            addWord(seekWd(head, done[i + 2]), libChoose(current, 2));      //将单词添加到错词库
             cout << "回答错误！" << endl;
             score -= 10;
         }
@@ -150,7 +150,7 @@ void choiceQuestionModel(const string &filePath, currentDTO *current)
     delNodeList(head);
 }
 
-/*  */
+/* 上一函数功能补充 可以删除错词库中用户答对的单词 */
 void R_choiceQuestionModel(currentDTO *current)
 {
     int total, score = 0, defTotal;
@@ -210,7 +210,7 @@ void R_choiceQuestionModel(currentDTO *current)
 void learnWord(const string &filePath)
 {
     int select, total, nowPage = 1;
-    NodeWd *head = loadLib(filePath, &total);
+    NodeWd *head = loadLib(filePath, &total);       //加载词库
     if (head == nullptr)
     {
         cout << "词本里没有单词，即将返回主菜单" << endl;
@@ -218,19 +218,21 @@ void learnWord(const string &filePath)
     }
     NodeWd *tp = head, *pg = head;
     int page = total / 10;
-    if (total % 10 != 0) page++;
+    if (total % 10 != 0) page++;        //每页显示10个单词
+    
     while (true)
     {
         tp = pg;
         for (int i = 1; i <= 10 && tp != nullptr; i++)
         {
             cout << "----------------" << endl;
-            cout << i + 10 * (nowPage - 1) << "、" << tp->info.EN << endl;
+            cout << i + 10 * (nowPage - 1) << "、" << tp->info.EN << endl;   //标出单词的排序
             cout << "\t" << tp->info.Attr;
             cout << " " << tp->info.CN << endl;
 //            cout << "----------------" << endl;
             tp = tp->next;
         }
+        
         cout << "第\t" << nowPage << "\t页";
         //选择部分
         cout << "选择你要查看的单词,输入0返回主菜单,输入11下一页" << endl;
@@ -267,6 +269,7 @@ int wordRecite(currentDTO *current)
         cout << "请先登录" << endl;
         return 0;
     }
+    
     string filePath;
     cout << "***选择你想要进行的背诵模式***" << endl;
     cout << "******************************" << endl;
