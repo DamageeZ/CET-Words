@@ -92,7 +92,7 @@ int main()
                 break;
             case 6:
                 update(current);        //实现退出登录前保存个人信息
-                memset(current, 0, sizeof(currentDTO));
+                current->Id = 0;
                 break;
             case 7:
                 update(current);        //实现退出程序前保存个人信息
