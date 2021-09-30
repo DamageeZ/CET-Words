@@ -9,7 +9,7 @@
 #include <utility>
 #include "currentDTO.h"
 
-struct Wd       //定义单词类
+struct Wd       //定义单词
 {
     std::string EN;
     std::string Attr;
