@@ -18,7 +18,6 @@ struct User     //定义用户类
     unsigned int level;
     unsigned int score;
     short lastSignTime;
-
     User() {};
 };
 

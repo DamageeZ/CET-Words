@@ -11,8 +11,8 @@ struct currentDTO       //用户状态传递，去除密码数据
     unsigned int Id = 0;
     unsigned int level = 0;
     unsigned int score = 0;
-    short lastSignTime = 0;
-    short dateOfToday = 0;
+    int lastSignTime = 0;
+    int dateOfToday = 0;
 };
 
 #endif //CET_CURRENTDTO_H

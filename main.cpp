@@ -49,7 +49,7 @@ int main() {
     struct tm *si;
     time_t t = time(nullptr);
     si = localtime(&t);
-    current->dateOfToday = si->tm_mday;
+    current->dateOfToday = si->tm_mday + (si->tm_mon + 1) * 100;
     int status = 0; //0 means normal
     unsigned long control = 0;
     while (true) {
