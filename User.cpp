@@ -18,7 +18,7 @@ using namespace std;
 /* 保存到文件 */
 void save(Node *head)       //传入链表指针
 {
-    ofstream outfile("./src/user.dat", ios::out);      //以写入模式打开文件
+    ofstream outfile("../src/user.dat", ios::out);      //以写入模式打开文件
 
 //    for (int i = 0; i < UserCount; i++)
 //    {
@@ -49,7 +49,7 @@ void save(Node *head)       //传入链表指针
 /* 读取用户数据 */
 Node *read(int *userCount) {
     Node *head = nullptr;
-    ifstream infile("./src/user.dat", ios::in);        //以读方式打开文件
+    ifstream infile("../src/user.dat", ios::in);        //以读方式打开文件
     *userCount = 0;
 
     if (!infile.is_open()) {

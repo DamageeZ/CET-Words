@@ -5,6 +5,7 @@
 #include "Word.h"
 #include <iostream>
 #include <string>
+#include "cstring"
 #include "Recitation.h"
 
 using namespace std;
@@ -30,20 +31,20 @@ string libChoose(currentDTO *current, int status)
     switch (select)
     {
         case 1:
-            Path = "./src/lib/L_" + to_string(current->Id) + ".dat";
+            Path = "../src/lib/L_" + to_string(current->Id) + ".dat";
             break;
         case 2:
-            Path = "./src/lib/R_" + to_string(current->Id) + ".dat";     //R 代表重新学习的词库
+            Path = "../src/lib/R_" + to_string(current->Id) + ".dat";     //R 代表重新学习的词库
             break;
         case 3:
-            Path = "./src/lib/defaultWordLib.dat";
+            Path = "../src/lib/defaultWordLib.dat";
             break;
         case 9:
-            Path = "returnHome";
+                Path = "returnHome";
             break;
         default:
             cout << "未正确选择题库，载入系统默认词库" << endl;
-            Path = "./src/lib/defaultWordLib.dat";
+            Path = "../src/lib/defaultWordLib.dat";
             break;
     }
     return Path;
@@ -191,16 +192,23 @@ void saveLib(NodeWd *head, const string &filePath)
 /* 添加单词 */
 void addWord(const string &filePath)
 {
-    Wd wd;
-    cout << "请输入要添加的单词的英文：";
-    cin >> wd.EN;
-    cout << endl << "请输入要添加的单词的词性：";
-    cin >> wd.Attr;
-    cout << endl << "请输入要添加的单词的意思";
-    cin >> wd.CN;
+    if(!(strcmp(filePath.c_str(),"returnHome")))
+    {
+        return;
+    }
+    else
+    {
+        Wd wd;
+        cout << "请输入要添加的单词的英文：";
+        cin >> wd.EN;
+        cout << endl << "请输入要添加的单词的词性：";
+        cin >> wd.Attr;
+        cout << endl << "请输入要添加的单词的意思";
+        cin >> wd.CN;
     
-    addWord(wd, filePath);
-    cout << "添加成功" << endl;
+        addWord(wd, filePath);
+        cout << "添加成功" << endl;
+    }
 }
 
 /* 词库管理 */
@@ -211,19 +219,18 @@ void libManage(currentDTO *current)
         cout << "请先登录" << endl;
         return;
     }
-    
-    cout << "***选择你想要进行的管理方式***" << endl;
-    cout << "******************************" << endl;
-    cout << "*****\t\t1、增加单词      *****" << endl;
-    cout << "*****\t\t2、删除单词      *****" << endl;
-    cout << "*****\t\t3、查询单词      *****" << endl;
-    cout << "*****\t\t4、修改单词      *****" << endl;
-    cout << "*****\t\t0、返回上级菜单   *****" << endl;
-    cout << "******************************" << endl;
-    
+  
     int a;
     while (true)
     {
+        cout << "***选择你想要进行的管理方式***" << endl;
+        cout << "******************************" << endl;
+        cout << "*****\t\t1、增加单词      *****" << endl;
+        cout << "*****\t\t2、删除单词      *****" << endl;
+        cout << "*****\t\t3、查询单词      *****" << endl;
+        cout << "*****\t\t4、修改单词      *****" << endl;
+        cout << "*****\t\t0、返回上级菜单   *****" << endl;
+        cout << "******************************" << endl;
         cout << "输入对应的数字进行管理:" << endl;
         cin >> a;
         
@@ -248,48 +255,54 @@ void libManage(currentDTO *current)
                 break;
         }
     }
-
 }
 
 /* 删除单词 */
 void delWord(const string &filePath)
 {
-    Wd wd;
-    int total;
-    cout << "请输入要删除的单词的英文：\t";
-    cin >> wd.EN;
-    NodeWd *head = loadLib(filePath, &total);
-    NodeWd *tp = head;
-    NodeWd *tp1 = nullptr;
-    NodeWd *del = nullptr;
-    bool isFirst = true;        //判断要删除的单词是否是头指针指向的节点
-    
-    while (tp != nullptr)
+    if(!(strcmp(filePath.c_str(),"returnHome")))
     {
-        if (tp->info.EN == wd.EN)
-        {
-            del = tp;
-            if (isFirst)
-            {
-                head = tp->next;        //将要删除的节点的尾指针赋值给头指针
-                del->next = nullptr;
-                delete tp;
-                break;
-            }
-            else
-            {
-                tp1->next = tp->next;       //将尾指针赋值给第三变量
-                del->next = nullptr;
-                delete del;
-                break;
-            }
-        }
-        isFirst = false;
-        tp1 = tp;
-        tp = tp->next;      //下移，实现遍历
+        return;
     }
-    saveLib(head, filePath);
-    cout << "删除完成" << endl;
+    else
+    {
+        Wd wd;
+        int total;
+        cout << "请输入要删除的单词的英文：\t";
+        cin >> wd.EN;
+        NodeWd *head = loadLib(filePath, &total);
+        NodeWd *tp = head;
+        NodeWd *tp1 = nullptr;
+        NodeWd *del = nullptr;
+        bool isFirst = true;        //判断要删除的单词是否是头指针指向的节点
+    
+        while (tp != nullptr)
+        {
+            if (tp->info.EN == wd.EN)
+            {
+                del = tp;
+                if (isFirst)
+                {
+                    head = tp->next;        //将要删除的节点的尾指针赋值给头指针
+                    del->next = nullptr;
+                    delete tp;
+                    break;
+                }
+                else
+                {
+                    tp1->next = tp->next;       //将尾指针赋值给第三变量
+                    del->next = nullptr;
+                    delete del;
+                    break;
+                }
+            }
+            isFirst = false;
+            tp1 = tp;
+            tp = tp->next;      //下移，实现遍历
+        }
+        saveLib(head, filePath);
+        cout << "删除完成" << endl;
+    }
 }
 
 /* 系统删除单词 */
@@ -332,24 +345,31 @@ void delWord(const Wd &wd, const string &filePath)
 /* 修改单词 */
 void modifyWord(const string &filePath)
 {
-    Wd wd;
-    int total;
-    cout << "请输入要修改的单词的英文：\t";
-    cin >> wd.EN;
-    NodeWd *head = loadLib(filePath, &total);
-    NodeWd *tp = head;
-    
-    while (tp != nullptr)
+    if(!(strcmp(filePath.c_str(),"returnHome")))
     {
-        if (tp->info.EN == wd.EN)
-        {
-            cout << "请输入新的词汇信息\t" << endl << "词性:\t";
-            cin >> wd.Attr;
-            cout << endl << "中文:\t";
-            cin >> wd.CN;
-        }
-        tp = tp->next;      //遍历词库
+        return;
     }
-    saveLib(head, filePath);
-    cout << "修改完成" << endl;
+    else
+    {
+        Wd wd;
+        int total;
+        cout << "请输入要修改的单词的英文：\t";
+        cin >> wd.EN;
+        NodeWd *head = loadLib(filePath, &total);
+        NodeWd *tp = head;
+    
+        while (tp != nullptr)
+        {
+            if (tp->info.EN == wd.EN)
+            {
+                cout << "请输入新的词汇信息\t" << endl << "词性:\t";
+                cin >> wd.Attr;
+                cout << endl << "中文:\t";
+                cin >> wd.CN;
+            }
+            tp = tp->next;      //遍历词库
+        }
+        saveLib(head, filePath);
+        cout << "修改完成" << endl;
+    }
 }

@@ -208,55 +208,62 @@ void R_choiceQuestionModel(currentDTO *current)
 /* 生词学习 */
 void learnWord(const string &filePath)
 {
-    int select, total, nowPage = 1;
-    NodeWd *head = loadLib(filePath, &total);       //通过传入选择词库路径并加载
-    if (head == nullptr)                            //nullptr并非整型类别，甚至也不是指针类型，但是能转换成任意指针类型。
+    if(!(strcmp(filePath.c_str(),"returnHome")))
     {
-        cout << "词本里没有单词，即将返回主菜单" << endl;
         return;
     }
-    NodeWd *tp = head, *pg = head;        //设置两个Nodewd型指针，便于翻页操作。
-    int page = total / 10;
-    if (total % 10 != 0) page++;        //计算页数，向上取值
-    
-    while (true)
+    else
     {
-        tp = pg;                        //循环后用于赋予翻译后的新值
-        for (int i = 1; i <= 10 && tp != nullptr; i++)  
+        int select, total, nowPage = 1;
+        NodeWd *head = loadLib(filePath, &total);       //通过传入选择词库路径并加载
+        if (head == nullptr)                            //nullptr并非整型类别，甚至也不是指针类型，但是能转换成任意指针类型。
         {
-            cout << "----------------" << endl;
-            cout << i + 10 * (nowPage - 1) << "、" << tp->info.EN << endl;   //标出单词的排序，可根据页数排序
-            cout << "\t" << tp->info.Attr;
-            cout << " " << tp->info.CN << endl;
-//          cout << "----------------" << endl;
-            tp = tp->next;              //tp指向下一页
+            cout << "词本里没有单词，即将返回主菜单" << endl;
+            return;
         }
-        
-        cout << "第\t" << nowPage << "\t页";
-        //选择部分
-        cout << "选择你要查看的单词,输入0返回主菜单,输入11下一页" << endl;
-        cin >> select;
-        if (select <= 0) break;
-        if (select == 11)
+        NodeWd *tp = head, *pg = head;        //设置两个Nodewd型指针，便于翻页操作。
+        int page = total / 10;
+        if (total % 10 != 0) page++;        //计算页数，向上取值
+    
+        while (true)
         {
-            if (nowPage < page)         //判断可否翻页，并将pg赋予tp的值以指向小一页，同时page加一
+            tp = pg;                        //循环后用于赋予翻译后的新值
+            for (int i = 1; i <= 10 && tp != nullptr; i++)
             {
-                pg = tp;
-                nowPage++;
+                cout << "----------------" << endl;
+                cout << i + 10 * (nowPage - 1) << "、" << tp->info.EN << endl;   //标出单词的排序，可根据页数排序
+                cout << "\t" << tp->info.Attr;
+                cout << " " << tp->info.CN << endl;
+//          cout << "----------------" << endl;
+                tp = tp->next;              //tp指向下一页
+            }
+        
+            cout << "第\t" << nowPage << "\t页";
+            //选择部分
+            cout << "选择你要查看的单词,输入0返回主菜单,输入11下一页" << endl;
+            cin >> select;
+            if (select <= 0) break;
+            if (select == 11)
+            {
+                if (nowPage < page)         //判断可否翻页，并将pg赋予tp的值以指向小一页，同时page加一
+                {
+                    pg = tp;
+                    nowPage++;
+                }
+                else
+                {
+                    cout << "没有更多了,输入0返回主菜单吧" << endl;
+                }
+                continue;
             }
             else
             {
-                cout << "没有更多了,输入0返回主菜单吧" << endl;
-            }
-            continue;
-        }
-        else
-        {
-            showAll(head, nowPage * select);
+                showAll(head, nowPage * select);
 //            system("cls");
+            }
+            delNodeList(head);
         }
     }
-    delNodeList(head);
 }
 
 /* 背诵主界面 */
