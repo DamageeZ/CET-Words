@@ -64,11 +64,10 @@
 
 ## 分工
 
-逻辑：
-用户：zzm
-词库：hcl
-交互逻辑：wqy、hcl、zzm
+#### 第一阶段：
 
-界面：
-适配：zzm
-UI：wqy
+用户：DamageeZ 词库：Baldness 出题，学习：wqiy、Baldness、DamageeZ
+
+#### 第二阶段：
+
+UI设计：wqiy 适配移植：DamageeZ 控制台版本测试与修复优化：Baldness
