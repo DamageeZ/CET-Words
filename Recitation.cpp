@@ -13,7 +13,7 @@
 using namespace std;
 
 /* 单词背诵拼写模式 */
-void wordSpellingModel(const string &filePath, currentDTO *current)
+void wordSpellingModel(const string &filePath, currentDTO *current)     //用户状态、文件地址传递
 {
 //    string userAnswer;
     int score = 0, total, done[10];
@@ -27,9 +27,9 @@ void wordSpellingModel(const string &filePath, currentDTO *current)
         bool ok = false;
         while (!ok)     //随机出题，防止每次一样
         {
-            done[i] = d(e);     //随机取值
+            done[i] = d(e);     //题号随机取值
             ok = true;
-            for (int j = 0; j < i; j++)
+            for (int j = 0; j < i; j++)     //循环遍历，以保证新生成的done[i]的值与原来的不同，防止题目重复
             {
                 if (done[i] == done[j])
                 {
@@ -40,30 +40,29 @@ void wordSpellingModel(const string &filePath, currentDTO *current)
         }
     }
     
-    char getAns[20], StandAns[20];
+    char getAns[20], StandAns[20];      //创建字符数组保存用户输入答案及正确答案
     
     for (int i = 0; i < 10; i++)
     {
-        tp = seekWd(head, done[i + 2]);         //每次都不从第一个选取单词
-        strcpy(StandAns, tp.EN.c_str());        //获取标准答案
-        cout << "\t" << tp.CN << "\t" << strlen(StandAns) << "个字母\t" << done[i + 2] << endl;    //显示汉语意思
-        
+        tp = seekWd(head, done[i + 2]);         //每次都不从第一个选取单词显示
+        strcpy(StandAns, tp.EN.c_str());        //获取对应标准答案复制给标准答案
+        cout << "\t" << tp.CN << "\t" << strlen(StandAns) << "个字母\t" << done[i + 2] << endl;    //显示汉语意思及正确答案字母个数
         for (int k = 0; k < 3; k++)     //给用户三次答题机会
         {
             cout << "请输入你的答案" << endl;
             cin >> getAns;
-            if (strcmp(StandAns, getAns) == 0)
+            if (strcmp(StandAns, getAns) == 0)      //strcmp函数判断两字符串相同与否，相同返回值0
             {
                 cout << "回答正确，下一个!" << endl;
                 score += 10;
-                break;
+                break;      //
             }
             else
             {
                 cout << "回答错误！" << endl;
                 if (strlen(StandAns) == strlen(getAns))     //回答单词长度与答案单词长度相等
                 {
-                    for (int j = 0; j < strlen((StandAns)); j++)        //判断用户的哪一个字母有误
+                    for (int j = 0; j < strlen((StandAns)); j++)        //判断用户的哪一个字母有误，并输出格式为“xxx_xx”的字符。
                     {
                         if (StandAns[j] == getAns[j])
                         {
@@ -85,22 +84,23 @@ void wordSpellingModel(const string &filePath, currentDTO *current)
                 score -= 10;
         }
         cout << "正确答案：" << tp.EN << endl;
-        addWord(seekWd(head, done[i + 2]), libChoose(current, 2));  //将错词添加到错题本
+        addWord(seekWd(head, done[i + 2]), libChoose(current, 2));  //将错词添加到错题
     }
     current->score += score;
     delNodeList(head);
 }
+
 
 /* 选择题背诵模式 */
 void choiceQuestionModel(const string &filePath, currentDTO *current)
 {
     int total, score = 0, defTotal;
     char userChoice;
-    string defPath = "./src/lib/defaultWordLib.dat";        //系统词库
-    NodeWd *head = loadLib(filePath, &total);       //用户词库链表
-    NodeWd *defHead = loadLib(defPath, &defTotal);      //系统词库链表
+    string defPath = "./src/lib/defaultWordLib.dat";        //系统词库路径
+    NodeWd *head = loadLib(filePath, &total);       //用户词库传入，并返回total值
+    NodeWd *defHead = loadLib(defPath, &defTotal);      //系统词库传入，并返回defTotal值
     cout << "本词库共计" << total << "词" << endl;
-    int done[12], ans[12];
+    int done[12], ans[12];          //题号、答案
     default_random_engine e;        //创建随机数引擎
     uniform_int_distribution<int> a(0, 3);      //随机三个错误答案
     uniform_int_distribution<int> d(1, total);      //在全部用户单词里随机选择
@@ -108,8 +108,8 @@ void choiceQuestionModel(const string &filePath, currentDTO *current)
     
     for (int i = 0; i < 12; i++)
     {
-        done[i] = d(e);     //题目题号
-        ans[i] = a(e);      //对应的答案
+        done[i] = d(e);     //随机赋值题目题号
+        ans[i] = a(e);      //随机获取选项
     }
     for (int i = 0; i < 10; i++)
     {
@@ -117,18 +117,18 @@ void choiceQuestionModel(const string &filePath, currentDTO *current)
         char sc = 'A';
         for (int j = 0; j < 4; j++, sc++)       //生成选项
         {
-            if (ans[i + 2] == j)        //在四个选项中随机生成正确答案对应的中文
+            if (ans[i + 2] == j)        //在四个选项中生成正确答案对应的中文
             {
                 cout << sc << "\t" << seekWd(head, done[i + 2]).CN << "\t" << seekWd(head, done[i + 2]).Attr << endl;
             }
-            else
+            else                        //其余
             {
                 int Err = 0;
                 do
                 {
                     Err = def(e);
-                } while (Err == done[i]);
-                cout << sc << "\t" << seekWd(defHead, Err).CN << "\t" << seekWd(defHead, Err).Attr << endl;
+                } while (Err == done[i]);//依旧防止重复
+                cout << sc << "\t" << seekWd(defHead, Err).CN << "\t" << seekWd(defHead, Err).Attr << endl; //生成对应错误选项
             }
         }
 
@@ -140,13 +140,13 @@ void choiceQuestionModel(const string &filePath, currentDTO *current)
         }
         else
         {
-            addWord(seekWd(head, done[i + 2]), libChoose(current, 2));      //将单词添加到错词库
+            addWord(seekWd(head, done[i + 2]), libChoose(current, 2));      //同样将单词添加到错词库
             cout << "回答错误！" << endl;
             score -= 10;
         }
     }
     cout << "本次背诵，您的分数为 " << score << " 分" << endl;
-    current->score += score;
+    current->score += score; //将本次答题分数存入数据
     delNodeList(head);
 }
 
@@ -164,7 +164,6 @@ void R_choiceQuestionModel(currentDTO *current)
     uniform_int_distribution<int> a(0, 3);
     uniform_int_distribution<int> d(1, total);
     uniform_int_distribution<int> def(1, defTotal);
-    
     for (int i = 0; i < 12; i++)
     {
         done[i] = d(e);
@@ -210,27 +209,27 @@ void R_choiceQuestionModel(currentDTO *current)
 void learnWord(const string &filePath)
 {
     int select, total, nowPage = 1;
-    NodeWd *head = loadLib(filePath, &total);       //加载词库
-    if (head == nullptr)
+    NodeWd *head = loadLib(filePath, &total);       //通过传入选择词库路径并加载
+    if (head == nullptr)                            //nullptr并非整型类别，甚至也不是指针类型，但是能转换成任意指针类型。
     {
         cout << "词本里没有单词，即将返回主菜单" << endl;
         return;
     }
-    NodeWd *tp = head, *pg = head;
+    NodeWd *tp = head, *pg = head;        //设置两个Nodewd型指针，便于翻页操作。
     int page = total / 10;
-    if (total % 10 != 0) page++;        //每页显示10个单词
+    if (total % 10 != 0) page++;        //计算页数，向上取值
     
     while (true)
     {
-        tp = pg;
-        for (int i = 1; i <= 10 && tp != nullptr; i++)
+        tp = pg;                        //循环后用于赋予翻译后的新值
+        for (int i = 1; i <= 10 && tp != nullptr; i++)  
         {
             cout << "----------------" << endl;
-            cout << i + 10 * (nowPage - 1) << "、" << tp->info.EN << endl;   //标出单词的排序
+            cout << i + 10 * (nowPage - 1) << "、" << tp->info.EN << endl;   //标出单词的排序，可根据页数排序
             cout << "\t" << tp->info.Attr;
             cout << " " << tp->info.CN << endl;
-//            cout << "----------------" << endl;
-            tp = tp->next;
+//          cout << "----------------" << endl;
+            tp = tp->next;              //tp指向下一页
         }
         
         cout << "第\t" << nowPage << "\t页";
@@ -240,7 +239,7 @@ void learnWord(const string &filePath)
         if (select <= 0) break;
         if (select == 11)
         {
-            if (nowPage < page)
+            if (nowPage < page)         //判断可否翻页，并将pg赋予tp的值以指向小一页，同时page加一
             {
                 pg = tp;
                 nowPage++;
@@ -261,7 +260,7 @@ void learnWord(const string &filePath)
 }
 
 /* 背诵主界面 */
-int wordRecite(currentDTO *current)
+int wordRecite(currentDTO *current)//传入用户信息
 {
     int selectModel = 0;
     if (current->Id == 0)
