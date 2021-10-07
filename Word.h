@@ -18,11 +18,10 @@ struct Wd       //定义单词信息结构体
     std::string EN;
     std::string Attr;
     std::string CN;
-
+    
     Wd() {};
-
-    Wd(std::string &E, std::string &A, std::string &C)
-    {
+    
+    Wd(std::string &E, std::string &A, std::string &C) {
         EN = E;
         Attr = A;
         CN = C;
@@ -33,7 +32,7 @@ struct NodeWd       //定义用于单词链表的结构体
 {
     Wd info;
     NodeWd *next;
-
+    
     NodeWd(Wd word, NodeWd *n = nullptr)        //不允许使用隐式转换
     {
         info = std::move(word);
